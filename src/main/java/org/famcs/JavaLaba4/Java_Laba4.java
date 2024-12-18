@@ -15,6 +15,8 @@ public class Java_Laba4 {
     public static void main(String[] args) 
     {
 
+
+
     SwingUtilities.invokeLater(MainWindow::new);
 
         CoffeeMakerList list = new CoffeeMakerList();
@@ -76,7 +78,7 @@ public class Java_Laba4 {
                 2.JAR
                 """;
 
-        DataAccessManager dataManager = DataAccessManager.getInstance();
+        DataAccessManager dataManager;// = DataAccessManager.getInstance();
 
         DataReader input;
         DataWriter out;
@@ -110,23 +112,23 @@ public class Java_Laba4 {
                                 switch(fileChoice)
                                 {
                                     case 1:
-                                    dataManager.initialize_read("input", "txt");
-                                    input = dataManager.getDataReader();
-                                    input.read(list);
+                                    //dataManager.initialize_read("input", "txt");
+                                    //input = dataManager.getDataReader();
+                                    //input.read(list);
                                     System.out.println ("//Reading data from txt file//");
                                     break;
 
                                     case 2:
-                                    dataManager.initialize_read("input", "xml");
-                                    input = dataManager.getDataReader();
-                                    input.read (list);
+                                    //dataManager.initialize_read("input", "xml");
+                                    //input = dataManager.getDataReader();
+                                    //input.read (list);
                                     System.out.println("//Reading data from XML file");
                                     break;
 
                                     case 3:
-                                    dataManager.initialize_read("input", "json");
-                                    input = dataManager.getDataReader();
-                                    input.read(list);
+                                   // dataManager.initialize_read("input", "json");
+                                    //input = dataManager.getDataReader();
+                                    //input.read(list);
                                     System.out.println("//Reading data from JSON file");
                                     break;
 
@@ -142,23 +144,23 @@ public class Java_Laba4 {
                                 switch(fileChoice)
                                 {
                                     case 1:
-                                    dataManager.initialize_write("output", "txt");
-                                    out = dataManager.getDataWriter();
-                                    out.write(list);
+                                   // dataManager.initialize_write("output", "txt");
+                                    //out = dataManager.getDataWriter();
+                                    //out.write(list);
                                     System.out.println ("//Writing data to txt file//");
                                     break;
 
                                     case 2:
-                                    dataManager.initialize_write("output", "xml");
-                                    out = dataManager.getDataWriter();
-                                    out.write(list);
+                                    //dataManager.initialize_write("output", "xml");
+                                    //out = dataManager.getDataWriter();
+                                    //out.write(list);
                                     System.out.println("//Writing data to XML file");
                                     break;
 
                                     case 3:
-                                    dataManager.initialize_write("output", "json");
-                                    out = dataManager.getDataWriter();
-                                    out.write(list);
+                                   // dataManager.initialize_write("output", "json");
+                                    //out = dataManager.getDataWriter();
+                                    //out.write(list);
                                     System.out.println("//Writing data to JSON file");
                                     break;
 
@@ -268,23 +270,23 @@ public class Java_Laba4 {
                             switch(fileChoice)
                             {
                                 case 1:
-                                dataManager.initialize_read("input", "txt");
-                                    input = dataManager.getDataReader();
-                                input.read(map);
+                                //dataManager.initialize_read("input", "txt");
+                                    //input = dataManager.getDataReader();
+                                //input.read(map);
                                 System.out.println ("//Reading data from txt file//");
                                 break;
 
                                 case 2:
-                                dataManager.initialize_read("input", "xml");
-                                input = dataManager.getDataReader();
-                                input.read (map);
+                                //dataManager.initialize_read("input", "xml");
+                                //input = dataManager.getDataReader();
+                                //input.read (map);
                                 System.out.println("//Reading data from XML file");
                                 break;
 
                                 case 3:
-                                dataManager.initialize_read("input", "json");
-                                    input = dataManager.getDataReader();
-                                input.read(map);
+                                //dataManager.initialize_read("input", "json");
+                                 //   input = dataManager.getDataReader();
+                                //input.read(map);
                                 System.out.println("//Reading data from JSON file");
                                 break;
 
@@ -300,23 +302,23 @@ public class Java_Laba4 {
                             switch(fileChoice)
                             {
                                 case 1:
-                                dataManager.initialize_write("output", "txt");
-                                out = dataManager.getDataWriter();
-                                out.write(map);
+                                //dataManager.initialize_write("output", "txt");
+                                //out = dataManager.getDataWriter();
+                                //out.write(map);
                                 System.out.println ("//Writing data to txt file//");
                                 break;
 
                                 case 2:
-                                dataManager.initialize_write("output", "xml");
-                                out = dataManager.getDataWriter();
-                                out.write(map);
+                                //dataManager.initialize_write("output", "xml");
+                                // = dataManager.getDataWriter();
+                                //out.write(map);
                                 System.out.println("//Writing data to XML file");
                                 break;
 
                                 case 3:
-                                dataManager.initialize_write("output", "json");
-                                out = dataManager.getDataWriter();
-                                out.write(map);
+                                //dataManager.initialize_write("output", "json");
+                                //out = dataManager.getDataWriter();
+                                //out.write(map);
                                 System.out.println("//Writing data to JSON file");
                                 break;
 
