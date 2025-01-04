@@ -1,0 +1,10 @@
+decrypted.txt
+encrypted.txt
+output.txt
+output.xml
+output.json
+input.xml
+input.json
+.vscode/
+target/
+.idea/

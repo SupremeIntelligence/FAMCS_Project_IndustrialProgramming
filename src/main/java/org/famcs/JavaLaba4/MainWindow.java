@@ -5,7 +5,9 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +33,10 @@ public class MainWindow extends JFrame
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        Image icon = Toolkit.getDefaultToolkit().getImage("resources/icon.png");
+        setIconImage(icon);
+
         generateUI();
         setVisible(true);
     }
@@ -50,7 +56,7 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                 inputPanel();
+                 setInputPanel();
             }
         });
 
@@ -58,7 +64,7 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                inputPanel();
+                setInputPanel();
             }
         });
 
@@ -66,7 +72,7 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                deletePanel();
+                setDeletePanel();
             }
             
         });
@@ -75,7 +81,7 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                sortPanel();
+                setSortPanel();
             }
         });
         menuPanel.add(nameLabel);
@@ -157,7 +163,7 @@ public class MainWindow extends JFrame
         });
     }
 
-    private void inputPanel()
+    private void setInputPanel()
     {
          JDialog dialog = new JDialog(this, "CoffeeMaker Input Window", false);
          dialog.setSize(300, 400);
@@ -248,7 +254,7 @@ public class MainWindow extends JFrame
         dialog.setVisible(true);
     }
 
-    private void deletePanel()
+    private void setDeletePanel()
     {
         JDialog dialog = new JDialog(this, "CoffeeMaker Delete Window", false);
         dialog.setSize(300, 200);
@@ -287,7 +293,7 @@ public class MainWindow extends JFrame
 
     }
 
-    private void sortPanel()
+    private void setSortPanel()
     {
         JDialog dialog = new JDialog(this, "Sorting Window", false);
         dialog.setSize(200, 350);
