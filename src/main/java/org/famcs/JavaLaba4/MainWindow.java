@@ -44,9 +44,8 @@ public class MainWindow extends JFrame
     private void generateUI()
     {
         JPanel menuPanel = new JPanel();
-        menuPanel.setLayout (new GridLayout(0, 1, 50, 10));
+        menuPanel.setLayout (new GridLayout(1, 0, 0, 0));
 
-        JLabel nameLabel = new JLabel("Action Menu", JLabel.CENTER);
         JButton addButton = new JButton("Add item");
         JButton updateButton = new JButton ("Update item");
         JButton deleteButton = new JButton("Delete item");
@@ -84,47 +83,10 @@ public class MainWindow extends JFrame
                 setSortPanel();
             }
         });
-        menuPanel.add(nameLabel);
         menuPanel.add(addButton);
         menuPanel.add(updateButton);
         menuPanel.add(deleteButton);
         menuPanel.add(sortButton);
-
-
-    JRadioButton listRButton = new JRadioButton("List");
-    JRadioButton mapRButton = new JRadioButton("Map");
-
-        JPanel containerPanel = new JPanel();
-        containerPanel.setLayout(new GridLayout(1,0,25,25));
-        containerPanel.add(listRButton);
-        containerPanel.add(mapRButton);
-
-        ButtonGroup RBgroup = new ButtonGroup();
-        RBgroup.add (listRButton);
-        RBgroup.add(mapRButton);
-        listRButton.setSelected(true);
-
-        listRButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                if (listRButton.isSelected())
-                {
-                    collection = new CoffeeMakerList();
-                }
-            }
-        });
-
-        mapRButton.addActionListener((new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                if (mapRButton.isSelected())
-                {
-                    collection = new CoffeeMakerMap();
-                }
-            }
-        }));
 
         manager = DataAccessManager.getInstance();
         manager.initialize_read("input", "txt");
@@ -138,9 +100,12 @@ public class MainWindow extends JFrame
         JScrollPane tableScrollPane = new JScrollPane(table);
 
         updateTable();
+        setMenuBar();
+
+        menuPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         this.setLayout(new BorderLayout());
-        this.add(menuPanel, BorderLayout.WEST);
-        this.add(containerPanel, BorderLayout.NORTH);
+        this.add(menuPanel, BorderLayout.NORTH);
+        //this.add(containerPanel, BorderLayout.SOUTH);
         this.add(tableScrollPane, BorderLayout.CENTER);
 
         this.addWindowListener(new WindowAdapter()
@@ -161,6 +126,29 @@ public class MainWindow extends JFrame
             writer.write(collection);
         }
         });
+    }
+
+    private void setMenuBar()
+    {
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu fileMenu = new JMenu("File");
+        JMenu settingsMenu = new JMenu("Settings");
+        JMenu helpMenu = new JMenu ("Help");
+
+        JMenuItem openAction = new JMenu ("Open");
+        JMenuItem saveAction = new JMenu ("Save");
+        JMenuItem saveAsAction = new JMenu("Save as");
+
+        fileMenu.add(openAction);
+        fileMenu.add(saveAction);
+        fileMenu.add(saveAsAction);
+
+        menuBar.add(fileMenu);
+        menuBar.add(settingsMenu);
+        menuBar.add(helpMenu);
+
+        this.setJMenuBar(menuBar);
     }
 
     private void setInputPanel()
