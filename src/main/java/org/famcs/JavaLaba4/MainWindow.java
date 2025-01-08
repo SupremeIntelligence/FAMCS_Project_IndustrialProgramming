@@ -22,12 +22,12 @@ public class MainWindow extends JFrame
 
     private JTable table;
     private DefaultTableModel tableModel;
-    private CoffeeMakerCollection collection = new CoffeeMakerList();
+    private CoffeeMakerCollection storage;
     private DataReader reader;
     private DataWriter writer;
     private DataAccessManager manager;
     
-    public MainWindow ()
+    public MainWindow (CoffeeMakerCollection storage)
     {
         setTitle("CoffeeMaker Manager");
         setSize(1280, 720);
@@ -37,11 +37,44 @@ public class MainWindow extends JFrame
         Image icon = Toolkit.getDefaultToolkit().getImage("resources/icon.png");
         setIconImage(icon);
 
+        this.storage = storage;
         generateUI();
         setVisible(true);
     }
 
     private void generateUI()
+    {
+        manager = DataAccessManager.getInstance();
+        manager.initialize_read("input", "txt");
+        reader = manager.getDataReader();
+        reader.read(storage);
+
+        setMenuBar();
+        this.setLayout(new BorderLayout());
+        this.add(createMenuPanel(), BorderLayout.NORTH);
+        this.add(createTable(), BorderLayout.CENTER);
+
+        this.addWindowListener(new WindowAdapter()
+        {
+        @Override
+        public void windowClosing(WindowEvent e)
+        {
+            manager.initialize_write("output", "txt");
+            writer = manager.getDataWriter();
+            writer.write(storage);
+
+            manager.initialize_write("output", "json");
+            writer = manager.getDataWriter();
+            writer.write(storage);
+
+            manager.initialize_write("output", "xml");
+            writer = manager.getDataWriter();
+            writer.write(storage);
+        }
+        });
+    }
+
+    private JPanel createMenuPanel()
     {
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout (new GridLayout(1, 0, 0, 0));
@@ -55,7 +88,7 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                 setInputPanel();
+                 createInputPanel();
             }
         });
 
@@ -63,7 +96,7 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                setInputPanel();
+                createInputPanel();
             }
         });
 
@@ -71,7 +104,7 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                setDeletePanel();
+                createDeletePanel();
             }
             
         });
@@ -80,7 +113,7 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                setSortPanel();
+                createSortPanel();
             }
         });
         menuPanel.add(addButton);
@@ -88,44 +121,9 @@ public class MainWindow extends JFrame
         menuPanel.add(deleteButton);
         menuPanel.add(sortButton);
 
-        manager = DataAccessManager.getInstance();
-        manager.initialize_read("input", "txt");
-        reader = manager.getDataReader();
-        reader.read(collection);
-
-        String[] columnNames = {"ID", "Brand", "Model", "Power", "Price", "Release date"};
-
-        tableModel = new DefaultTableModel(columnNames, 0);
-        table = new JTable (tableModel);
-        JScrollPane tableScrollPane = new JScrollPane(table);
-
-        updateTable();
-        setMenuBar();
-
         menuPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-        this.setLayout(new BorderLayout());
-        this.add(menuPanel, BorderLayout.NORTH);
-        //this.add(containerPanel, BorderLayout.SOUTH);
-        this.add(tableScrollPane, BorderLayout.CENTER);
 
-        this.addWindowListener(new WindowAdapter()
-        {
-        @Override
-        public void windowClosing(WindowEvent e)
-        {
-            manager.initialize_write("output", "txt");
-            writer = manager.getDataWriter();
-            writer.write(collection);
-
-            manager.initialize_write("output", "json");
-            writer = manager.getDataWriter();
-            writer.write(collection);
-
-            manager.initialize_write("output", "xml");
-            writer = manager.getDataWriter();
-            writer.write(collection);
-        }
-        });
+        return menuPanel;
     }
 
     private void setMenuBar()
@@ -139,10 +137,16 @@ public class MainWindow extends JFrame
         JMenuItem openAction = new JMenu ("Open");
         JMenuItem saveAction = new JMenu ("Save");
         JMenuItem saveAsAction = new JMenu("Save as");
+        JMenuItem archiveAction = new JMenu ("Archive");
+        JMenuItem archiveAsAction = new JMenu ("Archive as");
+        JMenuItem openArchiveAction = new JMenu ("Open archive");
 
         fileMenu.add(openAction);
         fileMenu.add(saveAction);
         fileMenu.add(saveAsAction);
+        fileMenu.add(archiveAction);
+        fileMenu.add(archiveAsAction);
+        fileMenu.add(openArchiveAction);
 
         menuBar.add(fileMenu);
         menuBar.add(settingsMenu);
@@ -151,7 +155,20 @@ public class MainWindow extends JFrame
         this.setJMenuBar(menuBar);
     }
 
-    private void setInputPanel()
+    private JScrollPane createTable()
+    {
+        String[] columnNames = {"ID", "Brand", "Model", "Power", "Price", "Release date"};
+
+        tableModel = new DefaultTableModel(columnNames, 0);
+        table = new JTable (tableModel);
+        JScrollPane tableScrollPane = new JScrollPane(table);
+
+        updateTable();
+
+        return tableScrollPane;
+    }
+
+    private void createInputPanel()
     {
          JDialog dialog = new JDialog(this, "CoffeeMaker Input Window", false);
          dialog.setSize(300, 400);
@@ -221,7 +238,7 @@ public class MainWindow extends JFrame
                 String dateStr = Integer.toString(date.getDay()) + ":" + Integer.toString(date.getMonth()) + ":" + Integer.toString(date.getYear());
                 if (ID>=tableModel.getRowCount())
                 {
-                    collection.add(obj);
+                    storage.add(obj);
                     tableModel.addRow(new Object[] {ID, brand, model, power, price, dateStr});
                 }
                 else if (ID >= 0 || ID < tableModel.getRowCount()) {
@@ -231,7 +248,7 @@ public class MainWindow extends JFrame
                     tableModel.setValueAt(power, ID, 3);
                     tableModel.setValueAt(price, ID, 4);
                     tableModel.setValueAt(dateStr, ID, 5);
-                    collection.update(obj);
+                    storage.update(obj);
                 }
                  dialog.dispose();
             }
@@ -242,7 +259,7 @@ public class MainWindow extends JFrame
         dialog.setVisible(true);
     }
 
-    private void setDeletePanel()
+    private void createDeletePanel()
     {
         JDialog dialog = new JDialog(this, "CoffeeMaker Delete Window", false);
         dialog.setSize(300, 200);
@@ -269,7 +286,7 @@ public class MainWindow extends JFrame
             public void actionPerformed(ActionEvent e) {
                 int index = Integer.parseInt(deleteField.getText());
                 tableModel.removeRow(index);
-                collection.delete(index);
+                storage.delete(index);
 
                 dialog.dispose();
             }
@@ -281,7 +298,7 @@ public class MainWindow extends JFrame
 
     }
 
-    private void setSortPanel()
+    private void createSortPanel()
     {
         JDialog dialog = new JDialog(this, "Sorting Window", false);
         dialog.setSize(200, 350);
@@ -340,32 +357,32 @@ public class MainWindow extends JFrame
             {
                 if(idButton.isSelected())
                 {
-                    collection.sort(1);
+                    storage.sort(1);
                     updateTable();
                 }
                 else if (brandButton.isSelected())
                 {
-                    collection.sort(2);
+                    storage.sort(2);
                     updateTable();
                 }
                 else if (modelButton.isSelected())
                 {
-                    collection.sort(3);
+                    storage.sort(3);
                     updateTable();
                 }
                 else if (powerButton.isSelected())
                 {
-                    collection.sort(4);
+                    storage.sort(4);
                     updateTable();
                 }
                 else if (priceButton.isSelected())
                 {
-                    collection.sort(5);
+                    storage.sort(5);
                     updateTable();
                 }
                 else if (dateButton.isSelected())
                 {
-                    collection.sort(6);
+                    storage.sort(6);
                     updateTable();
                 }
                 dialog.dispose();
@@ -381,8 +398,8 @@ public class MainWindow extends JFrame
     private void updateTable()
     {
         tableModel.setRowCount(0);
-            for (int i = 0; i < collection.getSize(); i++) {
-                CoffeeMaker obj = (CoffeeMaker) collection.getItem(i);
+            for (int i = 0; i < storage.getSize(); i++) {
+                CoffeeMaker obj = (CoffeeMaker) storage.getItem(i);
 
                 Date date = obj.getDate();
                 String dateStr = Integer.toString(date.getDay()) + ":" + Integer.toString(date.getMonth()) + ":" + Integer.toString(date.getYear()+1900);
