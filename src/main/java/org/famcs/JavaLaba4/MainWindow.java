@@ -11,8 +11,6 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Formatter;
-import java.util.List;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +31,7 @@ public class MainWindow extends JFrame
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        JFrame.setDefaultLookAndFeelDecorated(true);
 
         Image icon = Toolkit.getDefaultToolkit().getImage("resources/icon.png");
         setIconImage(icon);
@@ -128,30 +127,7 @@ public class MainWindow extends JFrame
 
     private void setMenuBar()
     {
-        JMenuBar menuBar = new JMenuBar();
-
-        JMenu fileMenu = new JMenu("File");
-        JMenu settingsMenu = new JMenu("Settings");
-        JMenu helpMenu = new JMenu ("Help");
-
-        JMenuItem openAction = new JMenu ("Open");
-        JMenuItem saveAction = new JMenu ("Save");
-        JMenuItem saveAsAction = new JMenu("Save as");
-        JMenuItem archiveAction = new JMenu ("Archive");
-        JMenuItem archiveAsAction = new JMenu ("Archive as");
-        JMenuItem openArchiveAction = new JMenu ("Open archive");
-
-        fileMenu.add(openAction);
-        fileMenu.add(saveAction);
-        fileMenu.add(saveAsAction);
-        fileMenu.add(archiveAction);
-        fileMenu.add(archiveAsAction);
-        fileMenu.add(openArchiveAction);
-
-        menuBar.add(fileMenu);
-        menuBar.add(settingsMenu);
-        menuBar.add(helpMenu);
-
+        MenuBar menuBar = new MenuBar();
         this.setJMenuBar(menuBar);
     }
 
