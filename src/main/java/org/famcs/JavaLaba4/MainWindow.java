@@ -73,6 +73,11 @@ public class MainWindow extends JFrame
         });
     }
 
+    public CoffeeMakerCollection getStorage ()
+    {
+        return storage;
+    }
+
     private JPanel createMenuPanel()
     {
         JPanel menuPanel = new JPanel();
@@ -127,7 +132,7 @@ public class MainWindow extends JFrame
 
     private void setMenuBar()
     {
-        MenuBar menuBar = new MenuBar();
+        MenuBar menuBar = new MenuBar(this);
         this.setJMenuBar(menuBar);
     }
 
@@ -371,7 +376,7 @@ public class MainWindow extends JFrame
         dialog.setVisible(true);
     }
 
-    private void updateTable()
+    public void updateTable()
     {
         tableModel.setRowCount(0);
             for (int i = 0; i < storage.getSize(); i++) {

@@ -34,9 +34,9 @@ public class XMLWriterDecorator extends TXTWriter
     }
 
     @Override
-    public String getFilePath()
+    public String getFileName()
     {
-        return this.wrapee.getFilePath();
+        return this.wrapee.getFileName();
     }
     public Document getDocument()
     {
@@ -61,7 +61,7 @@ public class XMLWriterDecorator extends TXTWriter
             Transformer transformer = factory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(this.wrapee.getFilePath() + ".xml");
+            StreamResult result = new StreamResult(this.wrapee.getFileName() + ".xml");
             transformer.transform(source, result);
 
         } 

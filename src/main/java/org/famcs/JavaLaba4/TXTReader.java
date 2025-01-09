@@ -10,27 +10,33 @@ import java.util.StringTokenizer;
 
 public class TXTReader implements DataReader
 {
-    private final String filePath;
+    private String filename;
 
     TXTReader ()
     {
-        filePath = "input";
+        this.filename = "input";
     }
     TXTReader(String filename)
     {
-        filePath = filename;
+        this.filename = filename;
     }
 
     @Override
-    public String getFilePath()
+    public String getFileName()
     {
-        return filePath;
+        return filename;
+    }
+
+    @Override
+    public void setFileName(String filename)
+    {
+        this.filename = filename;
     }
 
     @Override
     public void read (CoffeeMakerCollection collection)
     {
-        try (Scanner scan = new Scanner (new FileReader (filePath + ".txt")))
+        try (Scanner scan = new Scanner (new FileReader (filename + ".txt")))
         {
             String str;
            while (scan.hasNextLine())
@@ -42,7 +48,7 @@ public class TXTReader implements DataReader
         }
         catch (IOException error)
         {
-            System.out.println("Error reading file " + filePath + ".txt" + "\n" + error.getMessage());
+            System.out.println("Error reading file " + filename + ".txt" + "\n" + error.getMessage());
         }
     }
 

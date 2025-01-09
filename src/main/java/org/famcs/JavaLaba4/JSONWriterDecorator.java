@@ -40,7 +40,7 @@ public class JSONWriterDecorator extends TXTWriter
     {
         try
         {
-            mapper.writeValue(new File (this.wrapee.getFilePath() + ".json"), obj);
+            mapper.writeValue(new File (this.wrapee.getFileName() + ".json"), obj);
         }
         catch(IOException e)
         {
@@ -53,7 +53,7 @@ public class JSONWriterDecorator extends TXTWriter
         try
         {
             List<CoffeeFabric> list = collection.getList();
-            mapper.writeValue(new File (this.wrapee.getFilePath() + ".json"), list);
+            mapper.writeValue(new File (this.wrapee.getFileName() + ".json"), list);
         }
         catch(IOException e)
         {

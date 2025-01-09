@@ -157,4 +157,9 @@ public class CoffeeMakerMap extends CoffeeMakerCollection
         map.clear();
         map.putAll(temp);
     }
+    @Override
+    public void clear()
+    {
+        map.clear();
+    }
 }

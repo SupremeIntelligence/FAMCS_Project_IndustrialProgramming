@@ -7,14 +7,13 @@ public final class DataAccessManager
 
     private DataReader reader;
     private DataWriter writer;
-    private final Path projectDir;
-
-    private DataAccessManager ()
-    {
-        projectDir = Paths.get("").toAbsolutePath();
+    public static Path projectDir = Paths.get("").toAbsolutePath();
+    
+        private DataAccessManager ()
+        {
         this.reader = null;
         this.writer = null;
-    }
+        }
 
     public static DataAccessManager getInstance()
     {

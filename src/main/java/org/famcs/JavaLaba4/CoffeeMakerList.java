@@ -139,4 +139,9 @@ public class CoffeeMakerList extends CoffeeMakerCollection
             list.add(item);
         }
     }
+    @Override
+    public void clear()
+    {
+        list.clear();
+    }
 }

@@ -11,43 +11,49 @@ import java.util.zip.ZipOutputStream;
 
 public class TXTWriter implements DataWriter
 {
-    private final String filePath;
+    private String filename;
 
     TXTWriter ()
     {
-        filePath = "output";
+        this.filename = "output";
     }
     TXTWriter(String filename)
     {
-        filePath = filename;
+        this.filename = filename;
     }
 
     @Override
-    public String getFilePath()
+    public String getFileName()
     {
-        return filePath;
+        return filename;
+    }
+
+    @Override
+    public void setFileName(String filename)
+    {
+        this.filename = filename;
     }
 
     @Override
     public void write (CoffeeMakerCollection collection)
     {
-        try (FileWriter output = new FileWriter (filePath+ ".txt");)
+        try (FileWriter output = new FileWriter (filename+ ".txt");)
         {
             output.write(collection.toString());
         }
         catch (IOException error)
         {
-            System.out.println("\nError writing to file " + filePath + ".txt" +"\n" + error.getMessage());
+            System.out.println("\nError writing to file " + filename + ".txt" +"\n" + error.getMessage());
         }
     }
     public void zipArchive (String zipfilename)
     {
-            try (FileInputStream fileInput = new FileInputStream(filePath); 
+            try (FileInputStream fileInput = new FileInputStream(filename); 
                 FileOutputStream fileOutput = new FileOutputStream(zipfilename); 
                 ZipOutputStream zipOutput = new ZipOutputStream(fileOutput)
                 ) 
             {
-                ZipEntry zipEntry = new ZipEntry(filePath);
+                ZipEntry zipEntry = new ZipEntry(filename);
                 zipOutput.putNextEntry(zipEntry);
                     
                 byte[] buffer = new byte[1024];
@@ -65,13 +71,13 @@ public class TXTWriter implements DataWriter
 
     public void jarArchive(String jarfilename)
     {
-        try (FileInputStream fileInput = new FileInputStream(filePath + ".txt"); 
+        try (FileInputStream fileInput = new FileInputStream(filename + ".txt"); 
             FileOutputStream fileOutput = new FileOutputStream(jarfilename); 
             JarOutputStream jarOutput = new JarOutputStream(fileOutput);
             )
         {
 
-            JarEntry jarEntry = new JarEntry(filePath + ".txt");
+            JarEntry jarEntry = new JarEntry(filename + ".txt");
             jarOutput.putNextEntry(jarEntry);
 
             byte[] buffer = new byte[1024];
