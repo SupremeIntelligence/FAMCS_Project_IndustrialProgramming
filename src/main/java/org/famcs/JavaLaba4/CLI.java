@@ -5,13 +5,6 @@ import java.util.Scanner;
 public class CLI 
 {
     private final String menu = """
-        Choose your preffered data type:
-        1.List
-        2.Map
-        3.Exit
-        """;
-
-    private final String submenu = """
            Choose option:
            1.Read from file
            2.Write to file
@@ -23,7 +16,7 @@ public class CLI
            8.Archive
            9.Encrypt
            10.Decrypt
-           11.Return to main menu
+           11.Exit
            """;
     private final String sortmenu = """
             Choose sort mode: 
@@ -48,12 +41,10 @@ public class CLI
   """;
 
     private CoffeeMakerCollection list;
-    private CoffeeMakerCollection map;
 
-    CLI (CoffeeMakerList list, CoffeeMakerMap map)
+    CLI (CoffeeMakerCollection list)
     {
       this.list = list;
-      this.map = map;
     }
 
   public void start()
@@ -66,7 +57,6 @@ public class CLI
 
       System.out.println(menu);
         int choice;
-        int subChoice;
         int sortChoice;
         int fileChoice;
         int archiveChoice;
@@ -75,48 +65,43 @@ public class CLI
         Scanner scan = new Scanner (System.in);
         choice = scan.nextInt();
 
-        while (choice != 3)
-        {
-            switch (choice)
-            {
-                case 1:
-                    System.out.println (submenu);
-                    subChoice = scan.nextInt();
-                    while (subChoice != 11)
-                    {
-                        switch(subChoice)
+                System.out.println (menu);
+                choice = scan.nextInt();
+                while (choice != 11)
+                {
+                    switch(choice)
                         {
                             case 1:
                             System.out.println(filemenu);
                             fileChoice = scan.nextInt();
-                                switch(fileChoice)
-                                {
-                                    case 1:
-                                    dataManager.initialize_read("input.txt");
-                                    input = dataManager.getDataReader();
-                                    input.read(list);
-                                    System.out.println ("//Reading data from txt file//");
-                                    break;
+                            switch(fileChoice)
+                            {
+                                case 1:
+                                dataManager.initialize_read("input.txt");
+                                input = dataManager.getDataReader();
+                                input.read(list);
+                                System.out.println ("//Reading data from txt file//");
+                                break;
 
-                                    case 2:
-                                    dataManager.initialize_read("input.xml");
-                                    input = dataManager.getDataReader();
-                                    input.read (list);
-                                    System.out.println("//Reading data from XML file");
-                                    break;
+                                case 2:
+                                dataManager.initialize_read("input.xml");
+                                input = dataManager.getDataReader();
+                                input.read (list);
+                                System.out.println("//Reading data from XML file");
+                                break;
 
-                                    case 3:
-                                    dataManager.initialize_read("input.json");
-                                    input = dataManager.getDataReader();
-                                    input.read(list);
-                                    System.out.println("//Reading data from JSON file");
-                                    break;
+                                case 3:
+                                dataManager.initialize_read("input.json");
+                                input = dataManager.getDataReader();
+                                input.read(list);
+                                System.out.println("//Reading data from JSON file");
+                                break;
 
-                                    default:
-                                    System.out.println("Incorrect input.");
-                                    break;
-                                }
-                                subChoice = scan.nextInt();
+                                default:
+                                System.out.println("Incorrect input.");
+                                break;
+                            }
+                                choice = scan.nextInt();
                                 break;
                             case 2:
                             System.out.println(filemenu);
@@ -148,12 +133,12 @@ public class CLI
                                     System.out.println("Incorrect input.");
                                     break;
                                 }
-                                subChoice = scan.nextInt();
+                                choice = scan.nextInt();
                                 break;
 
                             case 3:
                                 System.out.println (list);
-                                subChoice = scan.nextInt();
+                                choice = scan.nextInt();
                                 break;
 
                             case 4:
@@ -161,7 +146,7 @@ public class CLI
                                 newObj1.Input(scan);
                                 list.add(newObj1);
                                 System.out.println("//Adding a new item//");
-                                subChoice = scan.nextInt();
+                                choice = scan.nextInt();
                                 break;
 
                             case 5:
@@ -172,7 +157,7 @@ public class CLI
                                 updObj1.setID(ID);
                                 list.update(updObj1);
                                 System.out.println("//Updating item//");
-                                subChoice = scan.nextInt();
+                                choice = scan.nextInt();
                                 break;
 
                             case 6:
@@ -180,14 +165,14 @@ public class CLI
                                 ID = scan.nextInt();
                                 list.delete(ID);
                                 System.out.println("//Deleting item//");
-                                subChoice = scan.nextInt();
+                                choice = scan.nextInt();
                                 break;
                             case 7:
                                 System.out.println(sortmenu);
                                 sortChoice = scan.nextInt();
                                 System.out.println ("//Sorting data//");
                                 list.sort(sortChoice);
-                                subChoice = scan.nextInt();
+                                choice = scan.nextInt();
                                 break;
                             case 8:
                                 System.out.println ("Enter the name of the archive: ");
@@ -213,194 +198,25 @@ public class CLI
                                     System.out.println("Incorrect input.");
                                     break;
                                 }
-                                subChoice = scan.nextInt();
+                                choice = scan.nextInt();
                                 break;
                             case 9:
                                 encryptor.encrypt("output.txt", "encrypted.txt");
                                 System.out.println ("//Data encryption//");
-                                subChoice = scan.nextInt();
+                                choice = scan.nextInt();
                                 break;
                             
                             case 10:
                                 encryptor.decrypt("encrypted.txt", "decrypted.txt");
                                 System.out.println ("//Data decryption//");
-                                subChoice = scan.nextInt();
+                                choice = scan.nextInt();
                                 break;
 
                             default:
                                 System.out.print("Incorrect input. Try again:\t");
-                                subChoice = scan.nextInt();
+                                choice = scan.nextInt();
                                 break;
-
                         }
                     }
-                    System.out.println(menu);
-                    choice = scan.nextInt();
-                    break;
-                case 2:
-                    System.out.println (submenu);
-                    subChoice = scan.nextInt();
-                    while (subChoice != 11)
-                    {
-                        switch(subChoice)
-                        {
-                        case 1:
-                        System.out.println(filemenu);
-                        fileChoice = scan.nextInt();
-                            switch(fileChoice)
-                            {
-                                case 1:
-                                dataManager.initialize_read("input.txt");
-                                input = dataManager.getDataReader();
-                                input.read(map);
-                                System.out.println ("//Reading data from txt file//");
-                                break;
-
-                                case 2:
-                                dataManager.initialize_read("input.xml");
-                                input = dataManager.getDataReader();
-                                input.read (map);
-                                System.out.println("//Reading data from XML file");
-                                break;
-
-                                case 3:
-                                dataManager.initialize_read("input.json");
-                                input = dataManager.getDataReader();
-                                input.read(map);
-                                System.out.println("//Reading data from JSON file");
-                                break;
-
-                                default:
-                                System.out.println("Incorrect input.");
-                                break;
-                            }
-                            subChoice = scan.nextInt();
-                            break;
-                        case 2:
-                        System.out.println(filemenu);
-                        fileChoice = scan.nextInt();
-                            switch(fileChoice)
-                            {
-                                case 1:
-                                dataManager.initialize_write("output.txt");
-                                out = dataManager.getDataWriter();
-                                out.write(map);
-                                System.out.println ("//Writing data to txt file//");
-                                break;
-
-                                case 2:
-                                dataManager.initialize_write("output.xml");
-                                out = dataManager.getDataWriter();
-                                out.write(map);
-                                System.out.println("//Writing data to XML file");
-                                break;
-
-                                case 3:
-                                dataManager.initialize_write("output.json");
-                                out = dataManager.getDataWriter();
-                                out.write(map);
-                                System.out.println("//Writing data to JSON file");
-                                break;
-
-                                default:
-                                System.out.println("Incorrect input.");
-                                break;
-                            }
-                            subChoice = scan.nextInt();
-                            break;
-
-                        case 3:
-                            System.out.println (map);
-                            subChoice = scan.nextInt();
-                            break;
-
-                        case 4:
-                            CoffeeMaker newObj2 = new CoffeeMaker();
-                            newObj2.Input(scan);
-                            map.add(newObj2);
-                            System.out.println("//Adding a new item//");
-                            subChoice = scan.nextInt();
-                            break;
-
-                        case 5:
-                            System.out.print("Enter the ID of the item you want to update: ");
-                            ID = scan.nextInt();
-                            CoffeeMaker updObj2 = new CoffeeMaker();
-                            updObj2.Input(scan);
-                            updObj2.setID(ID);
-                            map.update(updObj2);
-                            System.out.println("//Updating item//");
-                            subChoice = scan.nextInt();
-                            break;
-
-                        case 6:
-                            System.out.print("Enter the ID of the item you want to delete: ");
-                            ID = scan.nextInt();
-                            map.delete(ID);
-                            System.out.println("//Deleting item//");
-                            subChoice = scan.nextInt();
-                            break;
-                        case 7:
-                            System.out.println(sortmenu);
-                            sortChoice = scan.nextInt();
-                            System.out.println ("//Sorting data//");
-                            map.sort(sortChoice);
-                            subChoice = scan.nextInt();
-                            break;
-                        case 8:
-                            System.out.println ("Enter the name of the archive: ");
-                            scan.nextLine();
-                            zipname = scan.nextLine();
-                            System.out.println(archivemenu);
-                            archiveChoice = scan.nextInt();
-                            switch(archiveChoice)
-                            {
-                                case 1:
-                                zipname = zipname + ".zip";
-                                //out.zipArchive(zipname);
-                                System.out.println ("//Zip data archiving//");
-                                break;
-
-                                case 2:
-                                zipname = zipname + ".jar";
-                                //out.jarArchive(zipname);
-                                System.out.println ("//Jar data archiving//");
-                                break;
-
-                                default:
-                                System.out.println("Incorrect input.");
-                                break;
-                            }
-                            subChoice = scan.nextInt();
-                            break;
-
-                            case 9:
-                            encryptor.encrypt("output.txt", "encrypted.txt");
-                            System.out.println ("//Data encryption//");
-                            subChoice = scan.nextInt();
-                            break;
-                        
-                        case 10:
-                            encryptor.decrypt("encrypted.txt", "decrypted.txt");
-                            System.out.println ("//Data decryption//");
-                            subChoice = scan.nextInt();
-                            break;
-
-                        default:
-                            System.out.print("Incorrect input. Try again:\t");
-                            subChoice = scan.nextInt();
-                            break;
-                        }
-                    }
-                    System.out.println(menu);
-                    choice = scan.nextInt();
-                    break;
-
-                default:
-                    System.out.print("Incorrect input. Try again:");
-                    choice = scan.nextInt();
-                    break;
-            }
         }
     }
-  }

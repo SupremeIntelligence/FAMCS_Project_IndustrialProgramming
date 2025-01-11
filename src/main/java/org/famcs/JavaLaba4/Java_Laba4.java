@@ -10,16 +10,13 @@ public class Java_Laba4 {
     public static void main(String[] args) 
     {
 
-        CoffeeMakerList listStorage = new CoffeeMakerList();
-        CoffeeMakerMap mapStorage = new CoffeeMakerMap();
+        CoffeeMakerCollection storage = new CoffeeMakerCollection();
 
-        CLI cli = new CLI (listStorage, mapStorage);
-        SwingUtilities.invokeLater(() -> new MainWindow(listStorage));
+        CLI cli = new CLI (storage);
+        SwingUtilities.invokeLater(() -> new MainWindow(storage));
 
         cli.start();
         
-
-        //для проекта удалить один из видов контейнеров (возможно)
         //обновить конструкторы Date до новейшей версии
         //добавить в настройки изменение директории сохранения по умолчанию
         

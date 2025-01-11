@@ -4,8 +4,10 @@ output.txt
 output.xml
 output.json
 input.xml
-input.txt
 input.json
 .vscode/
 target/
 .idea/
+CoffeeMakerCollection_Old.java
+CoffeeMakerMap.java
+input.txt
