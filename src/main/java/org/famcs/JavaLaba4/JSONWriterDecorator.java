@@ -24,6 +24,7 @@ public class JSONWriterDecorator extends TXTWriter
             .build();
 
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE);
     }
     public JSONWriterDecorator (DataWriter source)
     {
@@ -34,13 +35,24 @@ public class JSONWriterDecorator extends TXTWriter
             .build();
             
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE);
+    }
+
+    public String getFilePath()
+    {
+        String prevFilePath = this.wrapee.getFilePath();
+        int dotIndex = prevFilePath.lastIndexOf('.');
+
+        String newFilePath = prevFilePath.substring(0, dotIndex) + ".json";
+        System.out.println(newFilePath);
+        return newFilePath;
     }
 
     public void write (CoffeeFabric obj)
     {
         try
         {
-            mapper.writeValue(new File (this.wrapee.getFileName() + ".json"), obj);
+            mapper.writeValue(new File (this.getFilePath()), obj);
         }
         catch(IOException e)
         {
@@ -53,7 +65,7 @@ public class JSONWriterDecorator extends TXTWriter
         try
         {
             List<CoffeeFabric> list = collection.getList();
-            mapper.writeValue(new File (this.wrapee.getFileName() + ".json"), list);
+            mapper.writeValue(new File (this.getFilePath()), list);
         }
         catch(IOException e)
         {

@@ -24,17 +24,22 @@ public class JSONReaderDecorator extends TXTReader
         mapper = new ObjectMapper();
     }
     @Override
-    public String getFileName ()
+    public String getFilePath()
     {
-        return this.wrapee.getFileName();
+        String prevFilePath = this.wrapee.getFilePath();
+        int dotIndex = prevFilePath.lastIndexOf('.');
+
+        String newFilePath = prevFilePath.substring(0, dotIndex) + ".json";
+        return newFilePath;
     }
+
     @Override
     public void read (CoffeeMakerCollection collection)
     {
         try
         {
-            CollectionType listType = mapper.getTypeFactory().constructCollectionType(List.class, CoffeeMaker.class);
-            List<CoffeeFabric> list = mapper.readValue (new File(this.wrapee.getFileName() + ".json"), listType);
+            CollectionType listType = mapper.getTypeFactory().constructCollectionType(List.class, CoffeeFabric.class);
+            List<CoffeeFabric> list = mapper.readValue (new File(this.getFilePath()), listType);
             collection.addFromList(list);
         }
         catch (IOException e)
@@ -49,7 +54,7 @@ public class JSONReaderDecorator extends TXTReader
     {
         try 
         {
-            CoffeeFabric temp = mapper.readValue (new File(this.wrapee.getFileName() + ".json"), CoffeeFabric.class);
+            CoffeeFabric temp = mapper.readValue (new File(this.getFilePath()), CoffeeMaker.class);
             
             obj.setID(temp.getID());
             obj.setBrand(temp.getBrand());

@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"id", "brand", "model", "price", "releaseDate"})
+@JsonPropertyOrder({"id", "brand", "model", "power" ,"price", "releaseDate"})
 public class CoffeeMaker extends CoffeeFabric
 {
     protected String brand;

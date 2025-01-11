@@ -44,7 +44,9 @@ public class MainWindow extends JFrame
     private void generateUI()
     {
         manager = DataAccessManager.getInstance();
-        manager.initialize_read("input", "txt");
+
+        manager.initialize_read(DataAccessManager.currentFile);
+
         reader = manager.getDataReader();
         reader.read(storage);
 
@@ -58,17 +60,7 @@ public class MainWindow extends JFrame
         @Override
         public void windowClosing(WindowEvent e)
         {
-            manager.initialize_write("output", "txt");
-            writer = manager.getDataWriter();
-            writer.write(storage);
-
-            manager.initialize_write("output", "json");
-            writer = manager.getDataWriter();
-            writer.write(storage);
-
-            manager.initialize_write("output", "xml");
-            writer = manager.getDataWriter();
-            writer.write(storage);
+            
         }
         });
     }

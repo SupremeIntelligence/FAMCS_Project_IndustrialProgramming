@@ -8,6 +8,7 @@ public final class DataAccessManager
     private DataReader reader;
     private DataWriter writer;
     public static Path projectDir = Paths.get("").toAbsolutePath();
+    public static String currentFile = projectDir.toString() + "\\example.txt";
     
         private DataAccessManager ()
         {
@@ -32,10 +33,12 @@ public final class DataAccessManager
             return instance;
     }
 
-    public void initialize_read (String fileName, String fileType)
+    public void initialize_read (String filePath)
     {
-        DataReader baseReader = new TXTReader(fileName);
-
+        DataReader baseReader = new TXTReader(filePath);
+        updateCurrentFile(filePath);
+        int dotIndex = filePath.lastIndexOf('.');
+        String fileType = filePath.substring(dotIndex+1);
         switch (fileType.toLowerCase())
         {
             case "txt":
@@ -52,10 +55,11 @@ public final class DataAccessManager
                 break;
         }
     }
-    public void initialize_write(String fileName, String fileType)
+    public void initialize_write(String filePath)
     {
-        DataWriter baseWriter = new TXTWriter(fileName);
-
+        DataWriter baseWriter = new TXTWriter(filePath);
+        int dotIndex = filePath.lastIndexOf('.');
+        String fileType = filePath.substring(dotIndex+1);
         switch (fileType.toLowerCase())
         {
             case "txt":
@@ -81,5 +85,10 @@ public final class DataAccessManager
     DataWriter getDataWriter ()
     {
         return writer;
+    }
+
+    private void updateCurrentFile(String filePath)
+    {
+        currentFile = filePath;
     }
 }

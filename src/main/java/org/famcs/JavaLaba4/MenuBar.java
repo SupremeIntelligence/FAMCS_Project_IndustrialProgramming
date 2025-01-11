@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -106,7 +108,7 @@ public class MenuBar extends JMenuBar
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                Save();
+                SaveAs();
             }
         });
 
@@ -222,14 +224,7 @@ public class MenuBar extends JMenuBar
         if (result == JFileChooser.APPROVE_OPTION) 
             {
                     file = fileChooser.getSelectedFile();
-                    
-                    String fullFilename = file.getName();
-
-                    int dotIndex = fullFilename.lastIndexOf('.');
-                    String filename = fullFilename.substring(0, dotIndex);
-                    String fileType = fullFilename.substring(dotIndex+1);
-
-                    DataAccessManager.getInstance().initialize_read(filename, fileType);
+                    DataAccessManager.getInstance().initialize_read(file.getAbsolutePath());
                     DataReader reader = DataAccessManager.getInstance().getDataReader();
                     CoffeeMakerCollection storage = owner.getStorage();
                     storage.clear();
@@ -239,8 +234,72 @@ public class MenuBar extends JMenuBar
             }
      }
 
-    private void Save()
+     private void Save()
+     {
+        DataAccessManager.getInstance().initialize_write(DataAccessManager.currentFile);
+        DataWriter writer = DataAccessManager.getInstance().getDataWriter();
+        writer.write(owner.getStorage());
+     }
+
+    private void SaveAs()
     {
+        JFileChooser fileChooser = new JFileChooser(DataAccessManager.projectDir.toString());
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
+                        "Text, JSON, XML files", "txt", "json", "xml"));
+        int result = fileChooser.showSaveDialog(owner);
+
+        
+
+        File file;
+        if(result == JFileChooser.APPROVE_OPTION)
+        {
+            
+            file = fileChooser.getSelectedFile();
+
+            String filePath = file.getAbsolutePath();
+            System.out.println(file.getAbsoluteFile());
+
+            if (file.isDirectory())
+            {
+                filePath += "\\default.txt";
+                File newFile = new File (filePath);
+                while (newFile.exists())
+                {
+                    
+                    String regex = "\\(\\d+\\)";
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(filePath);
+
+                    if (matcher.find())
+                    {
+                       String counterStr = matcher.group();
+                       String numberStr = counterStr.substring(1, counterStr.length() - 1);
+                       
+                       int counter = Integer.parseInt(numberStr);
+                       counter++;
+                       filePath = filePath.replaceAll(regex, "(" + Integer.toString(counter) + ")");
+                    }
+                    else 
+                    {
+                        int dotIndex = filePath.lastIndexOf('.');
+                        StringBuilder newFilePath = new StringBuilder(filePath);
+                        newFilePath.insert(dotIndex - 1, " (1)");
+
+                        filePath = newFilePath.toString();
+                    }
+
+                    newFile = new File (filePath);
+                }
+            }
+            DataAccessManager.getInstance().initialize_write(filePath);
+            DataWriter writer = DataAccessManager.getInstance().getDataWriter();
+            writer.write(owner.getStorage());
+        }
+        else if (result == JFileChooser.ERROR_OPTION)
+        {
+            System.out.println("smth");
+        }
 
     }
 
@@ -253,5 +312,4 @@ public class MenuBar extends JMenuBar
     {
 
     }
-
 }

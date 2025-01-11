@@ -11,49 +11,49 @@ import java.util.zip.ZipOutputStream;
 
 public class TXTWriter implements DataWriter
 {
-    private String filename;
+    private String filePath;
 
     TXTWriter ()
     {
-        this.filename = "output";
+        this.filePath = "output.txt";
     }
-    TXTWriter(String filename)
+    TXTWriter(String filePath)
     {
-        this.filename = filename;
-    }
-
-    @Override
-    public String getFileName()
-    {
-        return filename;
+        this.filePath = filePath;
     }
 
     @Override
-    public void setFileName(String filename)
+    public String getFilePath()
     {
-        this.filename = filename;
+        return filePath;
+    }
+
+    @Override
+    public void setFilePath(String filePath)
+    {
+        this.filePath = filePath;
     }
 
     @Override
     public void write (CoffeeMakerCollection collection)
     {
-        try (FileWriter output = new FileWriter (filename+ ".txt");)
+        try (FileWriter output = new FileWriter (filePath);)
         {
             output.write(collection.toString());
         }
         catch (IOException error)
         {
-            System.out.println("\nError writing to file " + filename + ".txt" +"\n" + error.getMessage());
+            System.out.println("\nError writing to file " + filePath +"\n" + error.getMessage());
         }
     }
-    public void zipArchive (String zipfilename)
+    public void zipArchive (String zipfilePath)
     {
-            try (FileInputStream fileInput = new FileInputStream(filename); 
-                FileOutputStream fileOutput = new FileOutputStream(zipfilename); 
+            try (FileInputStream fileInput = new FileInputStream(filePath); 
+                FileOutputStream fileOutput = new FileOutputStream(zipfilePath); 
                 ZipOutputStream zipOutput = new ZipOutputStream(fileOutput)
                 ) 
             {
-                ZipEntry zipEntry = new ZipEntry(filename);
+                ZipEntry zipEntry = new ZipEntry(filePath);
                 zipOutput.putNextEntry(zipEntry);
                     
                 byte[] buffer = new byte[1024];
@@ -69,15 +69,15 @@ public class TXTWriter implements DataWriter
             }
     }
 
-    public void jarArchive(String jarfilename)
+    public void jarArchive(String jarfilePath)
     {
-        try (FileInputStream fileInput = new FileInputStream(filename + ".txt"); 
-            FileOutputStream fileOutput = new FileOutputStream(jarfilename); 
+        try (FileInputStream fileInput = new FileInputStream(filePath); 
+            FileOutputStream fileOutput = new FileOutputStream(jarfilePath); 
             JarOutputStream jarOutput = new JarOutputStream(fileOutput);
             )
         {
 
-            JarEntry jarEntry = new JarEntry(filename + ".txt");
+            JarEntry jarEntry = new JarEntry(filePath);
             jarOutput.putNextEntry(jarEntry);
 
             byte[] buffer = new byte[1024];

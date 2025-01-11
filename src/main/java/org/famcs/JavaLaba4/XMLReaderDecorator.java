@@ -33,9 +33,13 @@ public class XMLReaderDecorator extends TXTReader
         this.configure();
     }
     @Override
-    public String getFileName()
+    public String getFilePath()
     {
-        return this.wrapee.getFileName();
+        String prevFilePath = this.wrapee.getFilePath();
+        int dotIndex = prevFilePath.lastIndexOf('.');
+
+        String newFilePath = prevFilePath.substring(0, dotIndex) + ".xml";
+        return newFilePath;
     }
 
     public Document getDocument()
@@ -50,7 +54,7 @@ public class XMLReaderDecorator extends TXTReader
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); 
             DocumentBuilder builder = factory.newDocumentBuilder();
             
-            document = builder.parse(this.wrapee.getFileName() + ".xml");
+            document = builder.parse(this.getFilePath());
         }
         catch (ParserConfigurationException e) 
         {

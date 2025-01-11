@@ -4,6 +4,7 @@ output.txt
 output.xml
 output.json
 input.xml
+input.txt
 input.json
 .vscode/
 target/
