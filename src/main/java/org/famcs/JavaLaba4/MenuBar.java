@@ -238,7 +238,7 @@ public class MenuBar extends JMenuBar
         JFileChooser fileChooser = new JFileChooser(DataAccessManager.projectDir.toString());
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
-                        "Text, JSON, XML files", "txt", "json", "xml"));
+                        "Text, JSON, XML, YAML files", "txt", "json", "xml", "yaml"));
         int result = fileChooser.showSaveDialog(owner);
 
         File file;

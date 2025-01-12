@@ -46,7 +46,15 @@ public class CoffeeMaker extends CoffeeFabric
         releaseDate = new Date(year, month, day);
     }
 
-    
+    public CoffeeMaker(int ID, String brandname, String modelname, int powervalue, double pricevalue, Date date)
+    {
+        this.setID(ID);
+        brand = brandname;
+        model = modelname;
+        power = powervalue;
+        price = pricevalue;
+        releaseDate = date;
+    }
 
     @Override
     public String getBrand() {

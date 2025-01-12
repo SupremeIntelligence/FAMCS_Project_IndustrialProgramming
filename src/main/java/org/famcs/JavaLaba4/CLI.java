@@ -32,6 +32,7 @@ public class CLI
   1.TXT file
   2.XML file
   3.JSON file
+  4.YAML file
   """;
 
     private final String archivemenu = """
@@ -95,6 +96,13 @@ public class CLI
                                 System.out.println("//Reading data from JSON file");
                                 break;
 
+                                case 4:
+                                dataManager.initialize_read("input.yaml");
+                                input = dataManager.getDataReader();
+                                input.read(list);
+                                System.out.println("//Reading data from YAML file");
+                                break;
+
                                 default:
                                 System.out.println("Incorrect input.");
                                 break;
@@ -125,6 +133,13 @@ public class CLI
                                     out = dataManager.getDataWriter();
                                     out.write(list);
                                     System.out.println("//Writing data to JSON file");
+                                    break;
+                                    
+                                    case 4:
+                                    dataManager.initialize_write("output.yaml");
+                                    out = dataManager.getDataWriter();
+                                    out.write(list);
+                                    System.out.println("//Writing data to YAML file");
                                     break;
 
                                     default:

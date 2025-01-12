@@ -50,6 +50,9 @@ public final class DataAccessManager
             case "xml":
                 reader = new XMLReaderDecorator(baseReader);
                 break;
+            case "yaml":
+                reader = new YAMLReaderDecorator(baseReader);
+                break;
             default:
                 reader = baseReader;
                 break;
@@ -71,6 +74,9 @@ public final class DataAccessManager
                 break;
             case "xml":
                 writer = new XMLWriterDecorator(baseWriter);
+                break;
+            case "yaml":
+                writer = new YAMLWriterDecorator(baseWriter);
                 break;
             default:
                 writer = baseWriter;
