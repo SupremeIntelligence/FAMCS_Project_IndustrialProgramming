@@ -58,6 +58,7 @@ public final class DataAccessManager
     public void initialize_write(String filePath)
     {
         DataWriter baseWriter = new TXTWriter(filePath);
+        updateCurrentFile(filePath);
         int dotIndex = filePath.lastIndexOf('.');
         String fileType = filePath.substring(dotIndex+1);
         switch (fileType.toLowerCase())

@@ -16,7 +16,6 @@ public class Java_Laba4 {
         SwingUtilities.invokeLater(() -> new MainWindow(storage));
 
         cli.start();
-        
         //обновить конструкторы Date до новейшей версии
         //добавить в настройки изменение директории сохранения по умолчанию
         

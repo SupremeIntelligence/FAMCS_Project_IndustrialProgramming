@@ -116,5 +116,4 @@ public class XMLWriterDecorator extends TXTWriter
             System.out.println("Error configurating XML file: " + e.getMessage());
         }
     }
-
 }

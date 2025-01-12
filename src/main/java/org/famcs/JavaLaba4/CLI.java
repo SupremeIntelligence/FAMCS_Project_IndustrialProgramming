@@ -55,20 +55,18 @@ public class CLI
     DataWriter out;
     Encryptor encryptor = new Encryptor();
 
-      System.out.println(menu);
+        System.out.println(menu);
         int choice;
         int sortChoice;
         int fileChoice;
         int archiveChoice;
-        String zipname;
+        String archivePath;
         int ID;
         Scanner scan = new Scanner (System.in);
+        System.out.println (menu);
         choice = scan.nextInt();
-
-                System.out.println (menu);
-                choice = scan.nextInt();
-                while (choice != 11)
-                {
+        while (choice != 11)
+            {
                     switch(choice)
                         {
                             case 1:
@@ -177,20 +175,20 @@ public class CLI
                             case 8:
                                 System.out.println ("Enter the name of the archive: ");
                                 scan.nextLine();
-                                zipname = scan.nextLine();
+                                archivePath = scan.nextLine();
                                 System.out.println(archivemenu);
                                 archiveChoice = scan.nextInt();
                                 switch(archiveChoice)
                                 {
                                     case 1:
-                                    zipname = zipname + ".zip";
-                                    //out.zipArchive(zipname);
+                                    archivePath = DataAccessManager.projectDir.toString() + "\\" + archivePath + ".zip";
+                                    Archiver.zipArchive("output.txt" ,archivePath);
                                     System.out.println ("//Zip data archiving//");
                                     break;
                                 
                                     case 2:
-                                    zipname = zipname + ".jar";
-                                    //out.jarArchive(zipname);
+                                    archivePath = DataAccessManager.projectDir.toString() + "\\" + archivePath + ".jar";
+                                    Archiver.jarArchive("output.txt" ,archivePath);
                                     System.out.println ("//Jar data archiving//");
                                     break;
                                         

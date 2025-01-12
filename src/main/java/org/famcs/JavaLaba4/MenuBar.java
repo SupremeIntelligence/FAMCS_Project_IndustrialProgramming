@@ -17,8 +17,10 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class MenuBar extends JMenuBar 
 {
@@ -47,47 +49,40 @@ public class MenuBar extends JMenuBar
         JMenuItem openAction = new JMenuItem("Open");
         JMenuItem saveAction = new JMenuItem("Save");
         JMenuItem saveAsAction = new JMenuItem("Save as");
-        JMenuItem archiveAction = new JMenuItem("Archive");
-        JMenuItem archiveAsAction = new JMenuItem("Archive as");
+        JMenu archiveMenu = new JMenu("Archive");
         JMenuItem openArchiveAction = new JMenuItem("Open archive");
+
+        JMenuItem ZipArchiveAction = new JMenuItem ("Add to .ZIP");
+        JMenuItem JarArchiveAction = new JMenuItem ("Add to .JAR");
         
         fileMenu.add(openAction);
         fileMenu.add(saveAction);
         fileMenu.add(saveAsAction);
-        fileMenu.add(archiveAction);
-        fileMenu.add(archiveAsAction);
+        fileMenu.add(archiveMenu);
         fileMenu.add(openArchiveAction);
+
+        archiveMenu.add(ZipArchiveAction);
+        archiveMenu.add(JarArchiveAction);
         
         openAction.setMnemonic('O');
         saveAction.setMnemonic('S');
         saveAsAction.setMnemonic('S');
-        archiveAction.setMnemonic('A');
-        archiveAsAction.setMnemonic('A');
+        archiveMenu.setMnemonic('A');
         openArchiveAction.setMnemonic('O');
 
         openAction.setAccelerator(KeyStroke.getKeyStroke('O', InputEvent.CTRL_DOWN_MASK));
         saveAction.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
         saveAsAction.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
-        archiveAction.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
-        archiveAsAction.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
         openArchiveAction.setAccelerator(KeyStroke.getKeyStroke('O', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
 
-        ImageIcon openIcon = new ImageIcon ("resources/open.png");
-        Image image = openIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(image);
-        openAction.setIcon(scaledIcon);
-
-        ImageIcon saveIcon = new ImageIcon("resources/save.png");
-        image = saveIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-        scaledIcon = new ImageIcon(image);
-
-        saveAction.setIcon(scaledIcon);
-        saveAsAction.setIcon(scaledIcon);
-
-        ImageIcon archiveIcon = new ImageIcon("resources/archive.png");
-        image = archiveIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-        scaledIcon = new ImageIcon(image);
-
+        setIcon(openAction, "resources/open.png");
+        setIcon(saveAction, "resources/save.png");
+        setIcon(saveAsAction, "resources/save.png");
+        setIcon(archiveMenu, "resources/archive.png");
+        setIcon(openArchiveAction, "resources/archive.png");
+        setIcon(ZipArchiveAction, "resources/zip.png");
+        setIcon(JarArchiveAction, "resources/jar.png");
+        
         openAction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -112,22 +107,6 @@ public class MenuBar extends JMenuBar
             }
         });
 
-        archiveAction.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                Archive();
-            }
-        });
-
-        archiveAsAction.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                Archive();
-            }
-        });
-
         openArchiveAction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -136,10 +115,21 @@ public class MenuBar extends JMenuBar
             }
         });
 
-        archiveAction.setIcon(scaledIcon);
-        archiveAsAction.setIcon(scaledIcon);
-        openArchiveAction.setIcon(scaledIcon);
-        
+        ZipArchiveAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                Archive(DataAccessManager.currentFile, Archiver.ArchiveTypes.ZIP);
+            }
+        });
+
+        JarArchiveAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                Archive(DataAccessManager.currentFile, Archiver.ArchiveTypes.JAR);
+            }
+        });
         this.add(fileMenu);
     }
 
@@ -303,13 +293,33 @@ public class MenuBar extends JMenuBar
 
     }
 
-    private void Archive()
+    private void Archive(String archivedFilePath, Archiver.ArchiveTypes archiveType)
     {
+        int dotIndex = archivedFilePath.lastIndexOf(".");
+        String archivePath = archivedFilePath.substring(0, dotIndex);
 
+        if (archiveType == Archiver.ArchiveTypes.ZIP)
+        {
+            archivePath += ".zip";
+            Archiver.zipArchive(archivedFilePath, archivePath);
+        }
+        else if (archiveType == Archiver.ArchiveTypes.JAR)
+        {
+            archivePath += ".jar";
+            Archiver.jarArchive(archivedFilePath, archivePath);
+        }
+        
+        
     }
 
     private void OpenArchive()
     {
 
+    }
+
+    private void setIcon(JMenuItem menuItem, String iconPath) {
+        ImageIcon icon = new ImageIcon(iconPath);
+        Image image = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+        menuItem.setIcon(new ImageIcon(image));
     }
 }
