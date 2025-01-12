@@ -44,7 +44,6 @@ public class JSONWriterDecorator extends TXTWriter
         int dotIndex = prevFilePath.lastIndexOf('.');
 
         String newFilePath = prevFilePath.substring(0, dotIndex) + ".json";
-        System.out.println(newFilePath);
         return newFilePath;
     }
 

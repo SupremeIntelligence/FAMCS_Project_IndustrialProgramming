@@ -60,7 +60,7 @@ public class CLI
         int sortChoice;
         int fileChoice;
         int archiveChoice;
-        String archivePath;
+        String archivePath = null;
         int ID;
         Scanner scan = new Scanner (System.in);
         System.out.println (menu);
@@ -199,12 +199,34 @@ public class CLI
                                 choice = scan.nextInt();
                                 break;
                             case 9:
+                            System.out.println(archivemenu);
+                                archiveChoice = scan.nextInt();
+                                switch(archiveChoice)
+                                {
+                                    case 1:
+                                    Archiver.ZipUnarchive(archivePath);
+                                    System.out.println ("//Zip data unarchiving// ");
+                                    break;
+                                
+                                    case 2:
+                                    Archiver.JarUnarchive(archivePath);
+                                    System.out.println ("//Jar data unarchiving// ");
+                                    break;
+                                        
+                                    default:
+                                    System.out.println("Incorrect input.");
+                                    break;
+                                }
+                           
+                            choice = scan.nextInt();
+                                break;
+                            case 10:
                                 encryptor.encrypt("output.txt", "encrypted.txt");
                                 System.out.println ("//Data encryption//");
                                 choice = scan.nextInt();
                                 break;
                             
-                            case 10:
+                            case 11:
                                 encryptor.decrypt("encrypted.txt", "decrypted.txt");
                                 System.out.println ("//Data decryption//");
                                 choice = scan.nextInt();

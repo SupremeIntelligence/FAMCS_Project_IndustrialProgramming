@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.lang.model.util.ElementScanner14;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -17,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
@@ -239,8 +241,6 @@ public class MenuBar extends JMenuBar
                         "Text, JSON, XML files", "txt", "json", "xml"));
         int result = fileChooser.showSaveDialog(owner);
 
-        
-
         File file;
         if(result == JFileChooser.APPROVE_OPTION)
         {
@@ -248,7 +248,6 @@ public class MenuBar extends JMenuBar
             file = fileChooser.getSelectedFile();
 
             String filePath = file.getAbsolutePath();
-            System.out.println(file.getAbsoluteFile());
 
             if (file.isDirectory())
             {
@@ -286,11 +285,6 @@ public class MenuBar extends JMenuBar
             DataWriter writer = DataAccessManager.getInstance().getDataWriter();
             writer.write(owner.getStorage());
         }
-        else if (result == JFileChooser.ERROR_OPTION)
-        {
-            System.out.println("smth");
-        }
-
     }
 
     private void Archive(String archivedFilePath, Archiver.ArchiveTypes archiveType)
@@ -314,7 +308,35 @@ public class MenuBar extends JMenuBar
 
     private void OpenArchive()
     {
+        JFileChooser fileChooser = new JFileChooser(DataAccessManager.projectDir.toString());
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
+                        "ZIP, JAR files", "zip", "jar"));
+        int result = fileChooser.showSaveDialog(owner);
 
+        File file;
+        if(result == JFileChooser.APPROVE_OPTION)
+        {
+            file = fileChooser.getSelectedFile();
+
+            String archivePath = file.getAbsolutePath();
+
+            int dotIndex = archivePath.lastIndexOf(".");
+            String archiveType = archivePath.substring(dotIndex +1);
+
+            if (archiveType.equalsIgnoreCase("zip"))
+            {   
+                Archiver.ZipUnarchive(archivePath);
+            }
+            else if (archiveType.equalsIgnoreCase("jar"))
+            {
+                Archiver.JarUnarchive(archivePath);
+            }
+            else 
+            {
+                JOptionPane.showMessageDialog(null, "Invalid archive type", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private void setIcon(JMenuItem menuItem, String iconPath) {
