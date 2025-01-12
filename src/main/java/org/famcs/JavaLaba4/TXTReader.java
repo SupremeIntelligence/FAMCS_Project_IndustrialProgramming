@@ -42,7 +42,7 @@ public class TXTReader implements DataReader
            while (scan.hasNextLine())
            {
                 str = scan.nextLine();
-                CoffeeMaker item = parseToCoffeeMaker(str);
+                CoffeeMaker item = parseToCoffeeMaker(CalculationParser.parseAndReplace(str));
                 collection.add(item);
            }
         }

@@ -195,7 +195,7 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                int ID = Integer.parseInt(idField.getText()); //лишнее
+                int ID = Integer.parseInt(idField.getText()); 
                 String brand = brandField.getText();
                 String model = modelField.getText();
                 int power = Integer.parseInt(powerField.getText());
@@ -203,7 +203,6 @@ public class MainWindow extends JFrame
                 int day = Integer.parseInt(dayField.getText());
                 int month = Integer.parseInt(monthField.getText());
                 int year = Integer.parseInt(yearField.getText());
-                //String dateStr = dayField.getText() + ":" + monthField.getText() + ":" + yearField.getText();
 
                 CoffeeMaker obj = new CoffeeMaker (brand, model, power, price, day, month, year);
                 obj.setID(ID);
