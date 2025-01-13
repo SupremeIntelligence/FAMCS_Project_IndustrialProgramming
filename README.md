@@ -1,4 +1,4 @@
-# **FAMCS Java Lab 4: CoffeeMaker Collection Manager**
+# **FAMCS IndustrialProgramming Project: CoffeeMaker Collection Manager**
 
 ## **About the Project**
 Welcome to the **FAMCS Java Lab 4** project! This project is developed as part of a lab assignment for the Applied Mathematics and Computer Science program at Belarusian State University. The project demonstrates your proficiency in file management, object-oriented programming, and the use of various file formats (including TXT, ZIP, and JAR) in Java.
