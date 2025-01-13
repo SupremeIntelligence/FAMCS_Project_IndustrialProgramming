@@ -2,6 +2,11 @@ package org.famcs.JavaLaba4;
 
 import java.util.Scanner;
 
+import org.famcs.JavaLaba4.FileManagement.Archiver;
+import org.famcs.JavaLaba4.FileManagement.DataAccessManager;
+import org.famcs.JavaLaba4.FileManagement.DataReader;
+import org.famcs.JavaLaba4.FileManagement.DataWriter;
+
 public class CLI 
 {
     private final String menu = """

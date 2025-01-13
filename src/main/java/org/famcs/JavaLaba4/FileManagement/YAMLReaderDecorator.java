@@ -1,8 +1,11 @@
-package org.famcs.JavaLaba4;
+package org.famcs.JavaLaba4.FileManagement;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.famcs.JavaLaba4.CoffeeFabric;
+import org.famcs.JavaLaba4.CoffeeMaker;
+import org.famcs.JavaLaba4.CoffeeMakerCollection;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;

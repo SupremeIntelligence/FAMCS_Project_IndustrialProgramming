@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 
 import org.famcs.JavaLaba4.GUI.MainWindow;
 
-public class Java_Laba4 {
+public class project {
 
     public static void main(String[] args) 
     {

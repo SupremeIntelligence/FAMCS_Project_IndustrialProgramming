@@ -15,10 +15,11 @@ import java.util.Date;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import org.famcs.JavaLaba4.CoffeeMakerCollection;
-import org.famcs.JavaLaba4.DataAccessManager;
-import org.famcs.JavaLaba4.DataReader;
-import org.famcs.JavaLaba4.DataWriter;
+import org.famcs.JavaLaba4.*;
+import org.famcs.JavaLaba4.FileManagement.DataAccessManager;
+import org.famcs.JavaLaba4.FileManagement.DataReader;
+import org.famcs.JavaLaba4.FileManagement.DataWriter;
+
 
 public class MainWindow extends JFrame 
 {

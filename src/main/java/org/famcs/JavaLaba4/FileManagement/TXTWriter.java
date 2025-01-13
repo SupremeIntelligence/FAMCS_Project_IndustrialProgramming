@@ -1,17 +1,19 @@
-package org.famcs.JavaLaba4;
+package org.famcs.JavaLaba4.FileManagement;
 
 import java.io.FileWriter;
 import java.io.IOException;
+
+import org.famcs.JavaLaba4.CoffeeMakerCollection;
 
 public class TXTWriter implements DataWriter
 {
     private String filePath;
 
-    TXTWriter ()
+    public TXTWriter ()
     {
         this.filePath = "output.txt";
     }
-    TXTWriter(String filePath)
+    public TXTWriter(String filePath)
     {
         this.filePath = filePath;
     }

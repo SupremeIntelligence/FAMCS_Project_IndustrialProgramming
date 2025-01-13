@@ -22,6 +22,10 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 
 import org.famcs.JavaLaba4.*;
+import org.famcs.JavaLaba4.FileManagement.Archiver;
+import org.famcs.JavaLaba4.FileManagement.DataAccessManager;
+import org.famcs.JavaLaba4.FileManagement.DataReader;
+import org.famcs.JavaLaba4.FileManagement.DataWriter;
 
 public class MenuBar extends JMenuBar 
 {

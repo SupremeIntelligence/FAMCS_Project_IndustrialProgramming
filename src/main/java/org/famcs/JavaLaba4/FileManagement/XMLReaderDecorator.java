@@ -1,4 +1,4 @@
-package org.famcs.JavaLaba4;
+package org.famcs.JavaLaba4.FileManagement;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -9,6 +9,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.famcs.JavaLaba4.CoffeeFabric;
+import org.famcs.JavaLaba4.CoffeeMaker;
+import org.famcs.JavaLaba4.CoffeeMakerCollection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

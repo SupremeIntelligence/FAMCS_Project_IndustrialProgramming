@@ -1,4 +1,4 @@
-package org.famcs.JavaLaba4;
+package org.famcs.JavaLaba4.FileManagement;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,15 +8,19 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import org.famcs.JavaLaba4.CalculationParser;
+import org.famcs.JavaLaba4.CoffeeMaker;
+import org.famcs.JavaLaba4.CoffeeMakerCollection;
+
 public class TXTReader implements DataReader
 {
     private String filePath;
 
-    TXTReader ()
+    public TXTReader ()
     {
         this.filePath = "input.txt";
     }
-    TXTReader(String filePath)
+    public TXTReader(String filePath)
     {
         this.filePath = filePath;
     }

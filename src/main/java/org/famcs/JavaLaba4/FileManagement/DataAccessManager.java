@@ -1,4 +1,4 @@
-package org.famcs.JavaLaba4;
+package org.famcs.JavaLaba4.FileManagement;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 public final class DataAccessManager 

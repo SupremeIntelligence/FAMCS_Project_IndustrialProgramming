@@ -1,8 +1,10 @@
-package org.famcs.JavaLaba4;
+package org.famcs.JavaLaba4.FileManagement;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.famcs.JavaLaba4.CoffeeMaker;
+import org.famcs.JavaLaba4.CoffeeMakerCollection;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;

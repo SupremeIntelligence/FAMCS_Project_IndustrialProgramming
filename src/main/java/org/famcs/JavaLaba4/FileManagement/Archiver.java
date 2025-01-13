@@ -1,4 +1,4 @@
-package org.famcs.JavaLaba4;
+package org.famcs.JavaLaba4.FileManagement;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

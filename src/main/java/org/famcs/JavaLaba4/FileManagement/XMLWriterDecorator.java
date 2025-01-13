@@ -1,4 +1,4 @@
-package org.famcs.JavaLaba4;
+package org.famcs.JavaLaba4.FileManagement;
 
 import java.text.SimpleDateFormat;
 
@@ -12,6 +12,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.famcs.JavaLaba4.CoffeeFabric;
+import org.famcs.JavaLaba4.CoffeeMakerCollection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
