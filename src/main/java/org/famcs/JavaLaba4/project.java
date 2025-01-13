@@ -3,6 +3,8 @@ package org.famcs.JavaLaba4;
 
 import javax.swing.SwingUtilities;
 
+import org.famcs.JavaLaba4.GUI.MainWindow;
+
 public class Java_Laba4 {
 
     public static void main(String[] args) 

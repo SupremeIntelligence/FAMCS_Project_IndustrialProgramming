@@ -1,4 +1,4 @@
-package org.famcs.JavaLaba4;
+package org.famcs.JavaLaba4.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -14,6 +14,11 @@ import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import org.famcs.JavaLaba4.CoffeeMakerCollection;
+import org.famcs.JavaLaba4.DataAccessManager;
+import org.famcs.JavaLaba4.DataReader;
+import org.famcs.JavaLaba4.DataWriter;
 
 public class MainWindow extends JFrame 
 {

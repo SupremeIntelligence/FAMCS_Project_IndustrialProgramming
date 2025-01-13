@@ -98,15 +98,6 @@ public class CoffeeMaker extends CoffeeFabric
     {
         this.releaseDate = date;
     }
-    @Override
-    public void Display()
-    {
-         SimpleDateFormat dateFrmt = new SimpleDateFormat("dd:MM:yyyy");
-         String dateStr = dateFrmt.format(releaseDate);
-        Formatter frmt = new Formatter();
-        frmt.format("ID: %4d | Brand: %10s | Model: %10s | Power: %5dW | Price: %6.1f BYN | Release Date: %10s", getID(), brand, model, power, price, dateStr);
-        System.out.println(frmt);
-    }
     
     @Override
     public String toString()

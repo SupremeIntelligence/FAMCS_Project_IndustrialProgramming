@@ -84,12 +84,12 @@ public final class DataAccessManager
         }
     }
 
-    DataReader getDataReader ()
+    public DataReader getDataReader ()
     {
         return reader;
     }
 
-    DataWriter getDataWriter ()
+    public DataWriter getDataWriter ()
     {
         return writer;
     }
