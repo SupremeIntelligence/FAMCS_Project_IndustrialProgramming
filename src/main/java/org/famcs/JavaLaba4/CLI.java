@@ -14,9 +14,10 @@ public class CLI
            6.Delete item
            7.Sort data by field
            8.Archive
-           9.Encrypt
-           10.Decrypt
-           11.Exit
+           9.Unarchive
+           10.Encrypt
+           11.Decrypt
+           12.Exit
            """;
     private final String sortmenu = """
             Choose sort mode: 
@@ -56,7 +57,6 @@ public class CLI
     DataWriter out;
     Encryptor encryptor = new Encryptor();
 
-        System.out.println(menu);
         int choice;
         int sortChoice;
         int fileChoice;
@@ -66,7 +66,7 @@ public class CLI
         Scanner scan = new Scanner (System.in);
         System.out.println (menu);
         choice = scan.nextInt();
-        while (choice != 11)
+        while (choice != 12)
             {
                     switch(choice)
                         {
@@ -76,31 +76,32 @@ public class CLI
                             switch(fileChoice)
                             {
                                 case 1:
-                                dataManager.initialize_read("input.txt");
+
+                                dataManager.initialize_read("examples\\input.txt");
                                 input = dataManager.getDataReader();
                                 input.read(list);
                                 System.out.println ("//Reading data from txt file//");
                                 break;
 
                                 case 2:
-                                dataManager.initialize_read("input.xml");
+                                dataManager.initialize_read("examples\\input.xml");
                                 input = dataManager.getDataReader();
                                 input.read (list);
                                 System.out.println("//Reading data from XML file");
                                 break;
 
                                 case 3:
-                                dataManager.initialize_read("input.json");
+                                dataManager.initialize_read("examples\\input.json");
                                 input = dataManager.getDataReader();
                                 input.read(list);
                                 System.out.println("//Reading data from JSON file");
                                 break;
 
                                 case 4:
-                                dataManager.initialize_read("input.yaml");
-                                input = dataManager.getDataReader();
-                                input.read(list);
-                                System.out.println("//Reading data from YAML file");
+                                //dataManager.initialize_read("examples\\input.yaml");
+                                //input = dataManager.getDataReader();
+                                //input.read(list);
+                                System.out.println("//DISABLED//Reading data from YAML file");
                                 break;
 
                                 default:
@@ -115,28 +116,28 @@ public class CLI
                                 switch(fileChoice)
                                 {
                                     case 1:
-                                    dataManager.initialize_write("output.txt");
+                                    dataManager.initialize_write("examples\\output.txt");
                                     out = dataManager.getDataWriter();
                                     out.write(list);
                                     System.out.println ("//Writing data to txt file//");
                                     break;
 
                                     case 2:
-                                    dataManager.initialize_write("output.xml");
+                                    dataManager.initialize_write("examples\\output.xml");
                                     out = dataManager.getDataWriter();
                                     out.write(list);
                                     System.out.println("//Writing data to XML file");
                                     break;
 
                                     case 3:
-                                    dataManager.initialize_write("output.json");
+                                    dataManager.initialize_write("examples\\output.json");
                                     out = dataManager.getDataWriter();
                                     out.write(list);
                                     System.out.println("//Writing data to JSON file");
                                     break;
                                     
                                     case 4:
-                                    dataManager.initialize_write("output.yaml");
+                                    dataManager.initialize_write("examples\\output.yaml");
                                     out = dataManager.getDataWriter();
                                     out.write(list);
                                     System.out.println("//Writing data to YAML file");
@@ -197,13 +198,13 @@ public class CLI
                                 {
                                     case 1:
                                     archivePath = DataAccessManager.projectDir.toString() + "\\" + archivePath + ".zip";
-                                    Archiver.zipArchive("output.txt" ,archivePath);
+                                    Archiver.zipArchive("examples\\output.txt" ,archivePath);
                                     System.out.println ("//Zip data archiving//");
                                     break;
                                 
                                     case 2:
                                     archivePath = DataAccessManager.projectDir.toString() + "\\" + archivePath + ".jar";
-                                    Archiver.jarArchive("output.txt" ,archivePath);
+                                    Archiver.jarArchive("examples\\output.txt" ,archivePath);
                                     System.out.println ("//Jar data archiving//");
                                     break;
                                         
@@ -236,13 +237,13 @@ public class CLI
                             choice = scan.nextInt();
                                 break;
                             case 10:
-                                encryptor.encrypt("output.txt", "encrypted.txt");
+                                encryptor.encrypt("examples\\output.txt");
                                 System.out.println ("//Data encryption//");
                                 choice = scan.nextInt();
                                 break;
                             
                             case 11:
-                                encryptor.decrypt("encrypted.txt", "decrypted.txt");
+                                encryptor.decrypt("examples\\output.txt");
                                 System.out.println ("//Data decryption//");
                                 choice = scan.nextInt();
                                 break;

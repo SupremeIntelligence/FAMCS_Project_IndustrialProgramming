@@ -1,3 +1,6 @@
-ID:    1 | Brand:       Jura | Model:        Impressa | Power:  1450+2000W | Price:  800,0 BYN | Release Date: 15:07:2020
-ID:    2 | Brand:    Philips | Model:     SaecoXelsis | Power:  1850W | Price: 1300,0 BYN | Release Date: 18:10:2021
-ID:    3 | Brand:     Gaggia | Model:     AnimaDeluxe | Power:  1400W | Price:  600,0 BYN | Release Date: 05:03:2018
+ID:    0 | Brand:       Jura | Model:        Impressa | Power:  1450W | Price:  800,0 BYN | Release Date: 15:07:2020
+ID:    1 | Brand:    Philips | Model:     SaecoXelsis | Power:  1850W | Price: 1300,0 BYN | Release Date: 18:10:2021
+ID:    2 | Brand:     Gaggia | Model:     AnimaDeluxe | Power:  1400W | Price:  600,0 BYN | Release Date: 05:03:2018
+ID:    3 | Brand:      Miele | Model:          CM6350 | Power:  1500W | Price:  950,0 BYN | Release Date: 12:12:2023
+ID:    4 | Brand:      Krups | Model:        Evidence | Power:  1450W | Price:  650,0 BYN | Release Date: 06:02:2020
+ID:    5 | Brand:   Breville | Model:      BaristaPro | Power:  1680W | Price: 1200,0 BYN | Release Date: 27:10:2021

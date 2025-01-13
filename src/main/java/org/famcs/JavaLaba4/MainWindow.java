@@ -60,7 +60,9 @@ public class MainWindow extends JFrame
         @Override
         public void windowClosing(WindowEvent e)
         {
-            
+            manager.initialize_write(DataAccessManager.currentFile);
+            writer = manager.getDataWriter();
+            writer.write(storage);
         }
         });
     }
@@ -259,7 +261,7 @@ public class MainWindow extends JFrame
                 int index = Integer.parseInt(deleteField.getText());
                 tableModel.removeRow(index);
                 storage.delete(index);
-
+                updateTable();
                 dialog.dispose();
             }
         });
@@ -378,6 +380,12 @@ public class MainWindow extends JFrame
 
                 tableModel.addRow(new Object[]{obj.getID(), obj.getBrand(), obj.getModel(), obj.getPower(), obj.getPrice(), dateStr});
             }
+    }
+
+    public void clearTable()
+    {
+        storage.clear();
+        updateTable();
     }
 }
 

@@ -1,5 +1,6 @@
 package org.famcs.JavaLaba4;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,16 +16,28 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 
 public class Encryptor 
 {
     private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
+    private static final String KEY_FILEPATH = "encryption.key";
     private final SecretKey key;
 
     public Encryptor ()
     {
-        key = generateKey();
+        SecretKey loadedKey = this.loadKey();
+
+        if (loadedKey == null)
+        {
+            this.key = generateKey();
+            saveKey(this.key);
+        }
+        else
+        {
+            this.key = loadedKey;
+        }
     }
     public Encryptor (SecretKey secretKey)
     {
@@ -47,7 +60,43 @@ public class Encryptor
         
     }
 
-    public void encrypt (String filePath, String encrFilePath)
+    private void saveKey(SecretKey key)
+    {
+        try (FileOutputStream keyOut = new FileOutputStream(KEY_FILEPATH)) 
+        {
+            keyOut.write(key.getEncoded());
+        }
+        catch (IOException e)
+        {
+            System.out.println ("Error saving encryption key: " + e.getMessage());
+        }
+    }
+
+    private SecretKey loadKey()
+    {
+        File keyFile = new File(KEY_FILEPATH);
+
+    if (!keyFile.exists() || keyFile.length() == 0) {
+        System.out.println("Key file does not exist or is empty.");
+        return null;
+    }
+
+    byte[] keyBytes = new byte[(int) keyFile.length()];
+    try (FileInputStream keyIn = new FileInputStream(keyFile)) 
+    {
+        if (keyIn.read(keyBytes) != keyBytes.length) {
+            throw new IOException("Failed to read the encryption key");
+        }
+    }
+    catch (IOException e)
+    {
+        System.out.println("Error reading key file: " + e.getMessage());
+        return null;
+    }
+    return new SecretKeySpec(keyBytes, "AES");
+    }
+
+    public void encrypt (String filePath)
     {
         try
         {
@@ -58,8 +107,11 @@ public class Encryptor
 
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
-            try (FileOutputStream encrFileOutput = new FileOutputStream(encrFilePath);
-                FileInputStream fileInput = new FileInputStream(filePath); 
+
+        File tempFile = File.createTempFile("temp_encrypted", null);
+        tempFile.deleteOnExit();
+            try (FileInputStream fileInput = new FileInputStream(filePath);
+                FileOutputStream encrFileOutput = new FileOutputStream(tempFile);
                 CipherOutputStream encrStream = new CipherOutputStream(encrFileOutput, cipher)
                 ) 
             {
@@ -72,6 +124,11 @@ public class Encryptor
                         encrStream.write(buffer, 0, length);
                 }
             }
+
+            File originalFile = new File(filePath);
+            originalFile.delete();
+            tempFile.renameTo(originalFile);
+    
         }
         catch(NoSuchAlgorithmException e)
         {
@@ -95,10 +152,10 @@ public class Encryptor
         }
         
     }
-    public void decrypt (String encrFilePath, String decrFilePath)
+    public void decrypt (String encrFilePath)
     {
-            try (FileOutputStream decrFileOutput = new FileOutputStream(decrFilePath);
-                 FileInputStream fileInput = new FileInputStream(encrFilePath);) 
+
+            try ( FileInputStream fileInput = new FileInputStream(encrFilePath);) 
             {
                 byte[] iv = new byte[16];
                 if (fileInput.read(iv) != iv.length) 
@@ -110,7 +167,12 @@ public class Encryptor
                 Cipher cipher = Cipher.getInstance(ALGORITHM);
                 cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
 
-                try (CipherInputStream decrStream = new CipherInputStream(fileInput, cipher);)
+                File tempFile = File.createTempFile("temp_decrypted", null);
+                tempFile.deleteOnExit(); 
+
+                try (FileOutputStream decrFileOutput = new FileOutputStream(tempFile);
+                    CipherInputStream decrStream = new CipherInputStream(fileInput, cipher);
+                    )
                 {
                     byte[] buffer = new byte[1024];
                 int length;
@@ -119,7 +181,11 @@ public class Encryptor
                     decrFileOutput.write(buffer, 0, length);
                 }
                 }
+                File originalFile = new File(encrFilePath);
+                originalFile.delete();
+                tempFile.renameTo(originalFile);
             }
+
         catch(NoSuchAlgorithmException e)
         {
             System.out.println ("Error supporting decryption algorythm " + e.getMessage());
@@ -140,6 +206,5 @@ public class Encryptor
         {
             System.out.println ("Error decrypting file " + e.getMessage());
         }
-        
     }
 }

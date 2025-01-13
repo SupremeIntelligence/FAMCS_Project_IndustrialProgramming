@@ -1,13 +1,7 @@
 decrypted.txt
 encrypted.txt
-output.txt
-output.xml
-output.json
-input.xml
-input.json
 .vscode/
 target/
 .idea/
 CoffeeMakerCollection_Old.java
 CoffeeMakerMap.java
-input.txt

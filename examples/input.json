@@ -1,0 +1,22 @@
+[ [ "org.famcs.JavaLaba4.CoffeeMaker", {
+  "id" : 1,
+  "brand" : "Jura",
+  "model" : "Impressa",
+  "power" : 1450,
+  "price" : 800.0,
+  "date" : "2020-07-15"
+} ], [ "org.famcs.JavaLaba4.CoffeeMaker", {
+  "id" : 2,
+  "brand" : "Philips",
+  "model" : "SaecoXelsis",
+  "power" : 1850,
+  "price" : 1300.0,
+  "date" : "2021-10-18"
+} ], [ "org.famcs.JavaLaba4.CoffeeMaker", {
+  "id" : 3,
+  "brand" : "Gaggia",
+  "model" : "AnimaDeluxe",
+  "power" : 1400,
+  "price" : 600.0,
+  "date" : "2018-03-05"
+} ] ]

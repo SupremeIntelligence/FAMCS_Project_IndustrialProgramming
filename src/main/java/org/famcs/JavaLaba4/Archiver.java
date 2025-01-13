@@ -101,7 +101,7 @@ public class Archiver
              )
             {
                 JarEntry jarEntry = jarInput.getNextJarEntry();
-                filePath+= jarEntry.getName();
+                filePath = jarEntry.getName();
                 try (FileOutputStream fileOutput = new FileOutputStream(filePath);)
                 {
                     byte[] buffer = new byte[1024];

@@ -1,0 +1,10 @@
+ID:    0 | Brand:   DeLonghi | Model:     Magnifica | Power:   1500W | Price:  500,0 BYN | Release Date: 12:05:2019
+ID:    1 | Brand:      Jura   | Model:     Impressa | Power:   1450W | Price:  800,0 BYN | Release Date: 15:07:2020
+ID:    2 | Brand:   Philips   | Model:   Saeco Xelsis | Power:  1850W | Price: 1300,0 BYN | Release Date: 18:10:2021
+ID:    3 | Brand:    Gaggia   | Model:    Anima Deluxe | Power: 1400W | Price:  600,0 BYN | Release Date: 05:03:2018
+ID:    4 | Brand:   Bosch     | Model:     Tassimo | Power:    1300W | Price:  300,0 BYN | Release Date: 20:08:2016
+ID:    5 | Brand:  KitchenAid | Model: Artisan Espresso | Power: 1380W | Price: 1100,5 BYN | Release Date: 23:09:2022
+ID:    6 | Brand:  Miele      | Model:    CM6350 | Power:   1500W | Price:  950,0 BYN | Release Date: 12:12:2023
+ID:    7 | Brand:   Krups     | Model:   Evidence | Power:    1450W | Price:  650,0 BYN | Release Date: 06:02:2020
+ID:    8 | Brand:    Nespresso | Model:  Vertuo Plus | Power: 1260W | Price:  400,0 BYN | Release Date: 01:06:2019
+ID:    9 | Brand:    Breville | Model:  Barista Pro | Power: 1680W | Price: 1200,0 BYN | Release Date: 27:10:2021

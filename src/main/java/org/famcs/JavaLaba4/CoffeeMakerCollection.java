@@ -36,6 +36,12 @@ public class CoffeeMakerCollection
     public void delete(int index)
     {
         list.remove(index);
+        for (int i = index; i < list.size(); i++)
+        {
+            CoffeeFabric obj = list.get(i);
+            obj.setID(i);
+            list.set(i, obj);
+        }
     }
 
     public int getSize()

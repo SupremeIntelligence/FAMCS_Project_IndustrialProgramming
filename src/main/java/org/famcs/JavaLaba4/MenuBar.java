@@ -40,7 +40,7 @@ public class MenuBar extends JMenuBar
     {
         this.owner = owner;
         createFileMenu();
-        createOptionsMenu();
+        //createOptionsMenu();
         createHelpMenu();
     }
         
@@ -53,7 +53,9 @@ public class MenuBar extends JMenuBar
         JMenuItem saveAsAction = new JMenuItem("Save as");
         JMenu archiveMenu = new JMenu("Archive");
         JMenuItem openArchiveAction = new JMenuItem("Open archive");
-
+        JMenuItem encryptAction = new JMenuItem ("Encrypt");
+        JMenuItem decryptAction = new JMenuItem ("Decrypt");
+        
         JMenuItem ZipArchiveAction = new JMenuItem ("Add to .ZIP");
         JMenuItem JarArchiveAction = new JMenuItem ("Add to .JAR");
         
@@ -62,6 +64,8 @@ public class MenuBar extends JMenuBar
         fileMenu.add(saveAsAction);
         fileMenu.add(archiveMenu);
         fileMenu.add(openArchiveAction);
+        fileMenu.add (encryptAction);
+        fileMenu.add (decryptAction);
 
         archiveMenu.add(ZipArchiveAction);
         archiveMenu.add(JarArchiveAction);
@@ -71,11 +75,15 @@ public class MenuBar extends JMenuBar
         saveAsAction.setMnemonic('S');
         archiveMenu.setMnemonic('A');
         openArchiveAction.setMnemonic('O');
+        encryptAction.setMnemonic('E');
+        decryptAction.setMnemonic('D');
 
         openAction.setAccelerator(KeyStroke.getKeyStroke('O', InputEvent.CTRL_DOWN_MASK));
         saveAction.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
         saveAsAction.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
         openArchiveAction.setAccelerator(KeyStroke.getKeyStroke('O', InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+        encryptAction.setAccelerator(KeyStroke.getKeyStroke('E', InputEvent.CTRL_DOWN_MASK));
+        decryptAction.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
 
         setIcon(openAction, "resources/open.png");
         setIcon(saveAction, "resources/save.png");
@@ -84,6 +92,8 @@ public class MenuBar extends JMenuBar
         setIcon(openArchiveAction, "resources/archive.png");
         setIcon(ZipArchiveAction, "resources/zip.png");
         setIcon(JarArchiveAction, "resources/jar.png");
+        setIcon(encryptAction, "resources/encrypt.png");
+        setIcon(decryptAction, "resources/decrypt.png");
         
         openAction.addActionListener(new ActionListener() {
             @Override
@@ -117,6 +127,22 @@ public class MenuBar extends JMenuBar
             }
         });
 
+
+        encryptAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                Encrypt();
+            }
+        });
+
+        decryptAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                Decrypt();
+            }
+        });
         ZipArchiveAction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -191,7 +217,7 @@ public class MenuBar extends JMenuBar
 
         JLabel welcomeLabel = new JLabel ("<html><b><span style='font-size:16px;'>Welcome to the app!</span></b></html>");
         JLabel textLabel = new JLabel("""
-            <html>Developed by Alexandr Evdokimov
+            <html>Developed by Alexander Evdokimov
             <br>Version 1.0b</html>""");
 
         welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -226,7 +252,7 @@ public class MenuBar extends JMenuBar
             }
      }
 
-     private void Save()
+     protected void Save()
      {
         DataAccessManager.getInstance().initialize_write(DataAccessManager.currentFile);
         DataWriter writer = DataAccessManager.getInstance().getDataWriter();
@@ -302,8 +328,7 @@ public class MenuBar extends JMenuBar
             archivePath += ".jar";
             Archiver.jarArchive(archivedFilePath, archivePath);
         }
-        
-        
+        JOptionPane.showMessageDialog(owner,  "File successfully archived.", "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void OpenArchive()
@@ -327,10 +352,12 @@ public class MenuBar extends JMenuBar
             if (archiveType.equalsIgnoreCase("zip"))
             {   
                 Archiver.ZipUnarchive(archivePath);
+                JOptionPane.showMessageDialog(owner,  "File successfully unarchived.", "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
             }
             else if (archiveType.equalsIgnoreCase("jar"))
             {
                 Archiver.JarUnarchive(archivePath);
+                JOptionPane.showMessageDialog(owner,  "File successfully unarchived.", "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
             }
             else 
             {
@@ -343,5 +370,31 @@ public class MenuBar extends JMenuBar
         ImageIcon icon = new ImageIcon(iconPath);
         Image image = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
         menuItem.setIcon(new ImageIcon(image));
+    }
+
+    private void Encrypt ()
+    {
+        Save();
+        Encryptor encryptor = new Encryptor();
+        encryptor.encrypt(DataAccessManager.currentFile);
+        JOptionPane.showMessageDialog(owner,  "File successfully saved and encrypted.", "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
+        owner.clearTable();
+    }
+
+    private void Decrypt()
+    {
+        JFileChooser fileChooser = new JFileChooser(DataAccessManager.projectDir.toString());
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
+                        "TXT, XML, JSON, ZIP, JAR files", "txt", "xml", "json", "yaml", "zip", "jar"));
+        int result = fileChooser.showSaveDialog(owner);
+        File file;
+        if(result == JFileChooser.APPROVE_OPTION)
+        {
+            file = fileChooser.getSelectedFile();
+            Encryptor encryptor = new Encryptor();
+            encryptor.decrypt(file.getAbsolutePath());
+            JOptionPane.showMessageDialog(owner,  "File successfully decrypted.", "Operation Completed", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }
