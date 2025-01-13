@@ -8,12 +8,16 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Formatter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import com.formdev.flatlaf.FlatDarkLaf;
 
 import org.famcs.JavaLaba4.*;
 import org.famcs.JavaLaba4.FileManagement.DataAccessManager;
@@ -30,6 +34,7 @@ public class MainWindow extends JFrame
     private DataReader reader;
     private DataWriter writer;
     private DataAccessManager manager;
+    
     
     public MainWindow (CoffeeMakerCollection storage)
     {
@@ -100,7 +105,7 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                createInputPanel();
+                createUpdatePanel();
             }
         });
 
@@ -140,7 +145,13 @@ public class MainWindow extends JFrame
     {
         String[] columnNames = {"ID", "Brand", "Model", "Power", "Price", "Release date"};
 
-        tableModel = new DefaultTableModel(columnNames, 0);
+        tableModel = new DefaultTableModel(columnNames, 0) 
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
         table = new JTable (tableModel);
         JScrollPane tableScrollPane = new JScrollPane(table);
 
@@ -152,6 +163,104 @@ public class MainWindow extends JFrame
     private void createInputPanel()
     {
          JDialog dialog = new JDialog(this, "CoffeeMaker Input Window", false);
+         dialog.setSize(300, 400);
+         dialog.setLocationRelativeTo(this); 
+         dialog.setResizable(false);
+        dialog.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 30));
+
+        //JTextField idField = new JTextField (15);
+        JTextField brandField = new JTextField (15);
+        JTextField modelField = new JTextField (15);
+        JTextField powerField = new JTextField (15);
+        JTextField priceField = new JTextField (15);
+        JTextField dayField = new JTextField (15);
+        JTextField monthField = new JTextField(15);
+        JTextField yearField = new JTextField (15);
+
+        //JLabel idLabel = new JLabel ("ID:");
+        JLabel brandLabel = new JLabel ("Brand:");
+        JLabel modelLabel = new JLabel ("Model:");
+        JLabel powerLabel = new JLabel ("Power:");
+        JLabel priceLabel = new JLabel ("Price:");
+        JLabel dayLabel = new JLabel ("Day:");
+        JLabel monthLabel = new JLabel ("Month:");
+        JLabel yearLabel = new JLabel ("Year:");
+
+        JPanel inputPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets = new Insets (5,5,5,5);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+
+        //x - column, y - row
+        //constraints.gridx = 0;   constraints.gridy = 0;     inputPanel.add(idLabel, constraints); 
+        //constraints.gridx = 1;   constraints.gridy = 0;     inputPanel.add(idField, constraints);
+        constraints.gridx = 0;   constraints.gridy = 0;     inputPanel.add(brandLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 0;     inputPanel.add(brandField, constraints);
+        constraints.gridx = 0;   constraints.gridy = 1;     inputPanel.add(modelLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 1;     inputPanel.add(modelField, constraints);
+        constraints.gridx = 0;   constraints.gridy = 2;     inputPanel.add(powerLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 2;     inputPanel.add(powerField, constraints);
+        constraints.gridx = 0;   constraints.gridy = 3;     inputPanel.add(priceLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 3;     inputPanel.add(priceField, constraints);
+        constraints.gridx = 0;   constraints.gridy = 4;     inputPanel.add(dayLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 4;     inputPanel.add(dayField, constraints);
+        constraints.gridx = 0;   constraints.gridy = 5;     inputPanel.add(monthLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 5;     inputPanel.add(monthField, constraints);
+        constraints.gridx = 0;   constraints.gridy = 6;     inputPanel.add(yearLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 6;     inputPanel.add(yearField, constraints);
+
+        JButton submitButton = new JButton ("OK");
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                //int ID = Integer.parseInt(CalculationParser.parseAndReplace(idField.getText())); 
+                String brand = brandField.getText();
+                String model = modelField.getText();
+                int power = Integer.parseInt(CalculationParser.parseAndReplace(powerField.getText()));
+                double price = Double.parseDouble(CalculationParser.parseAndReplace(priceField.getText()));
+                int day = Integer.parseInt(CalculationParser.parseAndReplace(dayField.getText()));
+                int month = Integer.parseInt(CalculationParser.parseAndReplace(monthField.getText()));
+                int year = Integer.parseInt(CalculationParser.parseAndReplace(yearField.getText()));
+
+                CoffeeMaker obj = new CoffeeMaker (brand, model, power, price, day, month, year);
+                obj.setID(storage.getSize());
+                int ID = obj.getID();
+                Date date = obj.getDate();
+
+                SimpleDateFormat dateFrmt = new SimpleDateFormat("dd:MM:yyyy");
+                String dateStr = dateFrmt.format(date);
+                String result;
+                try (Formatter frmt = new Formatter()) 
+                    {
+                        result = frmt.format(dateStr).toString();
+                    }
+                if (ID>=tableModel.getRowCount())
+                {
+                    storage.add(obj);
+                    tableModel.addRow(new Object[] {ID, brand, model, power, price, result});
+                }
+                else if (ID >= 0 || ID < tableModel.getRowCount()) {
+                    tableModel.setValueAt(ID, ID, 0);
+                    tableModel.setValueAt(brand, ID, 1);
+                    tableModel.setValueAt(model, ID, 2);
+                    tableModel.setValueAt(power, ID, 3);
+                    tableModel.setValueAt(price, ID, 4);
+                    tableModel.setValueAt(dateStr, ID, 5);
+                    storage.update(obj);
+                }
+                 dialog.dispose();
+            }
+        });
+        dialog.add(inputPanel);
+        dialog.add(submitButton);
+
+        dialog.setVisible(true);
+    }
+
+    private void createUpdatePanel()
+    {
+        JDialog dialog = new JDialog(this, "CoffeeMaker Update Window", false);
          dialog.setSize(300, 400);
          dialog.setLocationRelativeTo(this); 
          dialog.setResizable(false);
@@ -203,23 +312,29 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                int ID = Integer.parseInt(idField.getText()); 
+                int ID = Integer.parseInt(CalculationParser.parseAndReplace(idField.getText())); 
                 String brand = brandField.getText();
                 String model = modelField.getText();
-                int power = Integer.parseInt(powerField.getText());
-                double price = Double.parseDouble(priceField.getText());
-                int day = Integer.parseInt(dayField.getText());
-                int month = Integer.parseInt(monthField.getText());
-                int year = Integer.parseInt(yearField.getText());
+                int power = Integer.parseInt(CalculationParser.parseAndReplace(powerField.getText()));
+                double price = Double.parseDouble(CalculationParser.parseAndReplace(priceField.getText()));
+                int day = Integer.parseInt(CalculationParser.parseAndReplace(dayField.getText()));
+                int month = Integer.parseInt(CalculationParser.parseAndReplace(monthField.getText()));
+                int year = Integer.parseInt(CalculationParser.parseAndReplace(yearField.getText()));
 
                 CoffeeMaker obj = new CoffeeMaker (brand, model, power, price, day, month, year);
-                obj.setID(ID);
                 Date date = obj.getDate();
-                String dateStr = Integer.toString(date.getDay()) + ":" + Integer.toString(date.getMonth()) + ":" + Integer.toString(date.getYear());
+
+                SimpleDateFormat dateFrmt = new SimpleDateFormat("dd:MM:yyyy");
+                String dateStr = dateFrmt.format(date);
+                String result;
+                try (Formatter frmt = new Formatter()) 
+                    {
+                        result = frmt.format(dateStr).toString();
+                    }
                 if (ID>=tableModel.getRowCount())
                 {
                     storage.add(obj);
-                    tableModel.addRow(new Object[] {ID, brand, model, power, price, dateStr});
+                    tableModel.addRow(new Object[] {ID, brand, model, power, price, result});
                 }
                 else if (ID >= 0 || ID < tableModel.getRowCount()) {
                     tableModel.setValueAt(ID, ID, 0);
@@ -287,23 +402,24 @@ public class MainWindow extends JFrame
         dialog.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 30));
 
         ButtonGroup sortGroup = new ButtonGroup();
-        JRadioButton idButton = new JRadioButton();
+        //JRadioButton idButton = new JRadioButton();
         JRadioButton brandButton = new JRadioButton();
         JRadioButton modelButton = new JRadioButton();
         JRadioButton powerButton = new JRadioButton();
         JRadioButton priceButton = new JRadioButton();
         JRadioButton dateButton = new JRadioButton();
 
-        idButton.setSelected(true);
+        //idButton.setSelected(true);
+        brandButton.setSelected(true);
 
-        sortGroup.add(idButton);
+        //sortGroup.add(idButton);
         sortGroup.add(brandButton);
         sortGroup.add(modelButton);
         sortGroup.add(powerButton);
         sortGroup.add(priceButton);
         sortGroup.add(dateButton);
 
-        JLabel idLabel = new JLabel ("Sort by ID");
+        //JLabel idLabel = new JLabel ("Sort by ID");
         JLabel brandLabel = new JLabel ("Sort by brand");
         JLabel modelLabel = new JLabel ("Sort by model");
         JLabel powerLabel = new JLabel ("Sort by power");
@@ -316,18 +432,18 @@ public class MainWindow extends JFrame
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
         //x - column, y - row
-        constraints.gridx = 0;   constraints.gridy = 0;     sortPanel.add(idLabel, constraints);
-        constraints.gridx = 1;   constraints.gridy = 0;     sortPanel.add(idButton, constraints);
-        constraints.gridx = 0;   constraints.gridy = 1;     sortPanel.add(brandLabel, constraints);
-        constraints.gridx = 1;   constraints.gridy = 1;     sortPanel.add(brandButton, constraints);
-        constraints.gridx = 0;   constraints.gridy = 2;     sortPanel.add(modelLabel, constraints);
-        constraints.gridx = 1;   constraints.gridy = 2;     sortPanel.add(modelButton, constraints);
-        constraints.gridx = 0;   constraints.gridy = 3;     sortPanel.add(powerLabel, constraints);
-        constraints.gridx = 1;   constraints.gridy = 3;     sortPanel.add(powerButton, constraints);
-        constraints.gridx = 0;   constraints.gridy = 4;     sortPanel.add(priceLabel, constraints);
-        constraints.gridx = 1;   constraints.gridy = 4;     sortPanel.add(priceButton, constraints);
-        constraints.gridx = 0;   constraints.gridy = 5;     sortPanel.add(dateLabel, constraints);
-        constraints.gridx = 1;   constraints.gridy = 5;     sortPanel.add(dateButton, constraints);
+        //constraints.gridx = 0;   constraints.gridy = 0;     sortPanel.add(idLabel, constraints);
+        //constraints.gridx = 1;   constraints.gridy = 0;     sortPanel.add(idButton, constraints);
+        constraints.gridx = 0;   constraints.gridy = 0;     sortPanel.add(brandLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 0;     sortPanel.add(brandButton, constraints);
+        constraints.gridx = 0;   constraints.gridy = 1;     sortPanel.add(modelLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 1;     sortPanel.add(modelButton, constraints);
+        constraints.gridx = 0;   constraints.gridy = 2;     sortPanel.add(powerLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 2;     sortPanel.add(powerButton, constraints);
+        constraints.gridx = 0;   constraints.gridy = 3;     sortPanel.add(priceLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 3;     sortPanel.add(priceButton, constraints);
+        constraints.gridx = 0;   constraints.gridy = 4;     sortPanel.add(dateLabel, constraints);
+        constraints.gridx = 1;   constraints.gridy = 4;     sortPanel.add(dateButton, constraints);
 
         JButton submitButton = new JButton ("OK");
 
@@ -335,12 +451,12 @@ public class MainWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if(idButton.isSelected())
-                {
-                    storage.sort(1);
-                    updateTable();
-                }
-                else if (brandButton.isSelected())
+                // if(idButton.isSelected())
+                // {
+                //     storage.sort(1);
+                //     updateTable();
+                // }
+                if (brandButton.isSelected())
                 {
                     storage.sort(2);
                     updateTable();
@@ -382,9 +498,16 @@ public class MainWindow extends JFrame
                 CoffeeMaker obj = (CoffeeMaker) storage.getItem(i);
 
                 Date date = obj.getDate();
-                String dateStr = Integer.toString(date.getDay()) + ":" + Integer.toString(date.getMonth()) + ":" + Integer.toString(date.getYear()+1900);
 
-                tableModel.addRow(new Object[]{obj.getID(), obj.getBrand(), obj.getModel(), obj.getPower(), obj.getPrice(), dateStr});
+                SimpleDateFormat dateFrmt = new SimpleDateFormat("dd:MM:yyyy");
+                String dateStr = dateFrmt.format(date);
+                String result;
+                try (Formatter frmt = new Formatter()) 
+        {
+            result = frmt.format(dateStr).toString();
+        }
+
+                tableModel.addRow(new Object[]{obj.getID(), obj.getBrand(), obj.getModel(), obj.getPower(), obj.getPrice(), result});
             }
     }
 
@@ -392,6 +515,31 @@ public class MainWindow extends JFrame
     {
         storage.clear();
         updateTable();
+    }
+
+    public void setLightTheme()
+    {
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(JFrame.getFrames()[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setDarkTheme ()
+    {
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+            
+        } catch (Exception e) 
+        {
+            System.err.println("FlatLaf not available or failed to initialize. Switching to default dark theme.");
+        }
+
+        for (Window window : Window.getWindows()) {
+            SwingUtilities.updateComponentTreeUI(window);
+        }
     }
 }
 

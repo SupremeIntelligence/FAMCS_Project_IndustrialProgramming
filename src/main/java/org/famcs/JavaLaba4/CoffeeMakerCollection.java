@@ -85,6 +85,12 @@ public class CoffeeMakerCollection
             default:
             System.out.println("Incorrect input. Try again");
         }
+        for (int i = 0; i < list.size(); i++)
+        {
+            CoffeeFabric obj = list.get(i);
+            obj.setID(i);
+            list.set(i, obj);
+        }
     }
 
     @Override

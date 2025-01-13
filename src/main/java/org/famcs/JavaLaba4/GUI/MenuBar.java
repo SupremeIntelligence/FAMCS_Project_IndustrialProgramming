@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -18,6 +19,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 
@@ -43,7 +45,7 @@ public class MenuBar extends JMenuBar
     {
         this.owner = owner;
         createFileMenu();
-        //createOptionsMenu();
+        createOptionsMenu();
         createHelpMenu();
     }
         
@@ -169,20 +171,43 @@ public class MenuBar extends JMenuBar
         JMenu optionsMenu = new JMenu ("Options");
 
         JMenuItem settingsAction = new JMenuItem ("Settings");
-        JMenuItem themeAction = new JMenuItem ("Theme");
+        JMenu themeMenu = new JMenu ("Theme");
 
         optionsMenu.add(settingsAction);
-        optionsMenu.add(themeAction);
+        optionsMenu.add(themeMenu);
 
-        ImageIcon settingsIcon = new ImageIcon ("resources/settings.png");
-        Image image = settingsIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(image);
-        settingsAction.setIcon(scaledIcon);
+        setIcon(settingsAction, "resources/settings.png");
+        setIcon(themeMenu, "resources/theme.png");
+        
 
-        ImageIcon themeIcon = new ImageIcon ("resources/theme.png");
-        image = themeIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-        scaledIcon = new ImageIcon(image);
-        themeAction.setIcon(scaledIcon);
+        JRadioButtonMenuItem lightButton = new JRadioButtonMenuItem("Light");
+        JRadioButtonMenuItem darkButton = new JRadioButtonMenuItem("Dark");
+
+        ButtonGroup group = new ButtonGroup();
+            group.add(lightButton);
+            group.add(darkButton);
+
+        lightButton.setSelected(true);
+
+        themeMenu.add(lightButton);
+        themeMenu.add(darkButton);
+
+        lightButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                owner.setLightTheme();
+            }
+        });
+
+        darkButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                owner.setDarkTheme();
+            }
+        });
+
 
         this.add(optionsMenu);
     }

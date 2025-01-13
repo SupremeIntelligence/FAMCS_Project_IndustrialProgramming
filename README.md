@@ -1,12 +1,13 @@
-# **FAMCS IndustrialProgramming Project: CoffeeMaker Collection Manager**
+# **FAMCS IndustrialProgramming Project: CoffeeMaker Manager**
 
 ## **About the Project**
-Welcome to the **FAMCS Java Lab 4** project! This project is developed as part of a lab assignment for the Applied Mathematics and Computer Science program at Belarusian State University. The project demonstrates your proficiency in file management, object-oriented programming, and the use of various file formats (including TXT, ZIP, and JAR) in Java.
+Welcome to the **CoffeeMaker Manager** project! This project is developed as part of a lab assignment for the Applied Mathematics and Computer Science program at Belarusian State University. The project demonstrates your proficiency in file management, object-oriented programming, and the use of various file formats (including TXT, XML, JSON, YAML, ZIP, and JAR) in Java.
 
-The core functionality of the project revolves around managing a collection of coffee makers using object-oriented principles, file handling, and archiving. This repository showcases various techniques such as:
+The core functionality of the project revolves around managing a collection of coffee makers using object-oriented principles, file handling, encrypting and archiving. This repository showcases various techniques such as:
 
 - Reading and writing data from/to files.
 - Implementing custom file readers and writers.
+- Encrypting files using AES algorithm.
 - Archiving files into ZIP and JAR formats.
 - Extracting files from ZIP and JAR archives.
   
@@ -21,6 +22,12 @@ The core functionality of the project revolves around managing a collection of c
 - **JUnit 5 (Jupiter)**
 - **File I/O** (Java File API)
 - **Archiving (ZIP/JAR)**
+
+## **Dependencies**
+- **Jackson**
+- **SnakeYAML**
+- **Javax XML** (Java File API)
+- **FlatLaf**
 
 ## **Installation**
 To set up the project, follow these steps:
